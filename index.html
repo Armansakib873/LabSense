@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratory Assistant</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #1d4ed8; /* blue-700 */
+            --primary-darker: #1e40af; /* blue-800 */
+            --secondary-color: #2dd4bf; /* teal-400 */
+            --accent-color: #f43f5e; /* rose-500 */
+            --text-primary: #111827; /* gray-900 */
+            --text-secondary: #6b7280; /* gray-500 */
+            --bg-light: #f8fafc; /* slate-50 */
+            --border-color: #e2e8f0; /* slate-200 */
+            --bg-dark: #1f2937; /* gray-800 */
+            --sidebar-bg-1: #374151; /* gray-700 */
+            --sidebar-bg-2: #111827; /* gray-900 */
+            --sidebar-text: #f3f4f6; /* gray-100 */
+        }
+        html {
+            scroll-behavior: smooth;
+            height: -webkit-fill-available;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(
+  to bottom,
+  #616161 0%,        /* Top 10% */
+  #616161 5%,
+  #ffffff 10%,       /* Middle 80% */
+  #ffffff 90%,
+  #ffffff 95%,       /* Bottom 10% */
+  #ffffff 100%
+);
+
+            
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            transition: all 1s ease-in-out;
+        }
+
+        /* Custom Scrollbar Styling (Webkit Browsers) */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: var(--border);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #adb5bd;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background-color: #6c757d;
+        }
+
+        *, ::after, ::before {
+            box-sizing: border-box;
+            border-style: none !important;
+        }
+
+
+        #main-content{
+            padding: 0px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+
+            background: radial-gradient(circle, #3b4a5ddd 0%, #616161 100%);
+            width: 240px;
+            color: #bbbbbbea;
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            position: sticky;
+            top: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            word-spacing: 3px;
+            letter-spacing: 2px;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            color: #aadee8;
+          
+        }
+
+        .sidebar-item {
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            margin: 0.25rem 0.5rem;
+            border-radius: 30px;
+            position: relative;
+            background-color: #333232;
+            box-shadow:
+                inset 0 2px 5px rgba(41, 41, 41, 0.473),
+                inset 0 0 5px rgba(37, 37, 37, 0.581);
+        }
+
+        .sidebar-item:hover {
+            background-color: #333232;
+            color: rgb(249, 250, 229);
+            box-shadow:
+                inset 0 2px 5px rgba(41, 41, 41, 0.473),
+                inset 0 0 5px rgba(37, 37, 37, 0.581);
+            transform: translateX(4px);
+            scale: 1.06;
+            z-index: 10;
+        }
+
+
+        .sidebar-main-item {
+            padding: 0.55rem 1rem;
+            width: 200px;
+        }
+
+        .sidebar-main-item.active {
+            background-color: #2d2d2d;
+            color: #faf3ce;
+            font-weight: 600;
+            box-shadow:
+                inset 0 2px 5px rgba(41, 41, 41, 0.473),
+                inset 0 0 5px rgba(37, 37, 37, 0.581);
+                transform: translateX(4px);
+        }
+
+        .sidebar-item.active::after{
+            content: '';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: #ffffffcd;
+            border-radius: 50%;
+            box-shadow:
+                inset 0 2px 3px rgba(27, 27, 27, 0.518),
+                inset 0 0 3px rgba(43, 43, 43, 0.5);
+                transition: all 0.3s ease;
+        }
+
+
+        .sidebar-submenu-item {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+          
+            padding: 0.5rem 2rem;
+            font-size: 0.74rem;
+            font-weight: 400;
+            margin: 0.5rem 1rem;
+            border-radius: 15px;
+            border-radius: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        
+        .sidebar-submenu-item.active {
+            position: relative;
+            background-color: var(--bg-light);
+            color: #1c8b00;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-left-color: #1d4ed8;
+            border-radius: 80px;
+            box-shadow:
+                0 4px 8px rgba(255, 255, 255, 0.4),
+                0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+
+        .sidebar-submenu-item:hover {
+            color: #ffffff;
+            transform: translateX(2px);
+        } 
+
+
+        .sidebar-submenu-item.active:hover {
+            background-color: #ffffff !important;
+            color: #00ad0c;
+            font-weight: 600;
+        }
+
+
+        @media (max-width: 1460px) {
+            .sidebar-submenu-item.active::after,
+            .sidebar-submenu-item.active::before {
+                display: none;
+            }
+        }
+
+
+         /* The Magic: Curve Outside Effect */
+         .sidebar-submenu-item.active::before,
+         .sidebar-submenu-item.active::after {
+            content: "";
+            position: absolute;
+            right: 59px;
+            width: 40px;
+            height: 51px;
+            background-color: #2a2a2a00;
+            z-index: -1;
+
+            transition: all 1s ease, color 1s ease;
+        }
+        
+        .sidebar-submenu-item.active::before {
+            top: -50px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 15px 20px 0 var(--bg-light);
+        }
+        
+        .sidebar-submenu-item.active::after {
+            bottom: -50px;
+            border-top-right-radius: 30px;
+            box-shadow: 15px -20px 0 var(--bg-light);
+        }
+
+
+
+
+
+
+
+        .sidebar-submenu-item.active i {
+            margin-right: 5px;
+            color: #d8231d;
+            transform: scale(1.1);
+        }
+
+        .submenu-container {
+            height: 0;
+            width: 20vw;
+            overflow: hidden;
+            margin: 0.5rem 0.5rem;
+            border-radius: 50px;
+            align-items: right;
+            text-align: right;
+            display: flex;
+            justify-content: right;
+            flex-direction: column;
+            align-content: right;
+            background-color: #2a2a2a;
+            box-shadow:
+                0 2px 5px rgba(171, 171, 171, 0.345),
+                inset 0 0 5px rgba(223, 223, 223, 0.262);
+            padding-left: 60px !important;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.1s ease-in-out,
+                        height 0.1s ease-in-out,
+                        padding 0.1s ease-in-out;
+            will-change: transform, height, padding;
+            z-index: 1000;
+        }
+
+        .submenu-container.active {
+            height: auto;
+            transform: scaleY(1);
+            padding: 1.5rem 0;
+            transition: transform 0.3s ease-out,
+                        height 0.3s ease-out,
+                        padding 0.3s ease-out;
+        }
+
+        .sidebar-item i {
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .sidebar-submenu-item i {
+            margin-right: 5px;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-item:hover i {
+            transform: scale(1.15);
+        }
+
+        #breadcrumb {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .submenu-container {
+                width: auto;
+            }
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+
+        #user-dropdown {
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        #user-dropdown:not(.hidden) {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        img[alt="User Avatar"] {
+            border: 2px solid var(--primary-color);
+        }
+
+        /* Main Content & Page Transitions */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 0;
+            margin-top: 0;
+            border-radius: 0;
+        }
+
+        #main-content {
+            margin-top: 0;
+            border-radius: 0;
+        }
+
+        input[type="text"] {
+            border: 2px solid rgb(161, 222, 255) !important;
+        }
+
+        @media (min-width: 768px) {
+            main.sidebar-collapsed {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 767px) {
+            main {
+                padding-bottom: 60px;
+            }
+        }
+
+        .page-content {
+            flex: 1;
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .page-content.active {
+            display: flex;
+            flex-direction: column;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
+            z-index: 50;
+            height: 60px;
+        }
+
+        .bottom-nav-item {
+            transition: color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .bottom-nav-item.active {
+            color: var(--primary-color);
+            background: #eff6ff;
+        }
+
+        .bottom-nav-item.active i {
+            transform: scale(1.2);
+        }
+
+        .bottom-nav-item.active i, .bottom-nav-item.active span {
+            font-weight: 500;
+        }
+
+        .bottom-nav-item:focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid var(--border-color);
+            animation: fadeInUp 0.5s ease-out forwards;
+            animation-delay: calc(var(--order) * 0.1s);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.07);
+            border-color: var(--primary-color);
+        }
+
+        .stat-card .icon-bg {
+            flex-shrink: 0;
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        /* Buttons */
+        .btn {
+            transition: all 0.2s ease;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            padding: 0.625rem 1.25rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-darker));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-darker);
+            box-shadow: 0 6px 12px rgba(29, 78, 216, 0.3);
+        }
+
+        .nav {
+            overflow: hidden !important;
+        }
+
+        /* Overlay */
+        .overlay {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 45;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Iframe Styling */
+        iframe {
+    border-radius: 0;
+    width: 100%;
+    height: max-content;
+    overflow: hidden;
+    flex: 1;
+    box-shadow: -10px 0 15px -5px rgba(255, 255, 255, 0.5);
+    z-index: 1000;
+}
+.main-content-area{
+    border-radius: 30px;
+}
+
+        .loading-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="text-base">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 bg-white border-r transform -translate-x-full md:translate-x-0 md:sticky md:top-0 md:flex flex-col h-screen">
+            <div class="sidebar-header">
+                <div class="flex items-center">
+                    <i class="fas fa-flask text-blue-500 text-2xl mr-2"></i>
+                    <span>Lab Assistant</span>
+                </div>
+            </div>
+            <nav class="flex-1 py-4 space-y-1.5" id="sidebar-nav">
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="dashboard" data-tooltip="Dashboard">
+                    <i class="fas fa-tachometer-alt fa-fw w-6 mr-3 "></i>
+                    <span>Dashboard</span>
+                </a>
+                <div class="submenu-container" id="dashboard-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="overview" data-tooltip="Overview">
+                        <i class="fas fa-chart-pie fa-fw text-gray-400"></i>
+                        <span>Overview</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="analytics" data-tooltip="Analytics">
+                        <i class="fas fa-chart-bar fa-fw text-gray-400"></i>
+                        <span>Analytics</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="schedule" data-tooltip="Schedule">
+                        <i class="fas fa-calendar-alt fa-fw text-gray-400"></i>
+                        <span>Schedule</span>
+                    </a>
+                </div>
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="calculations" data-tooltip="calculations">
+                    <i class="fas fa-flask fa-fw w-6 mr-3 "></i>
+                    <span>Calculations</span>
+                </a>
+                <div class="submenu-container" id="calculations-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="egfr" data-tooltip="eGFR Calculation">
+                        <i class="fas fa-calculator fa-fw text-gray-400"></i>
+                        <span>eGFR</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="active" data-tooltip="Active">
+                        <i class="fas fa-play-circle fa-fw text-gray-400"></i>
+                        <span>Dilution</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="archived" data-tooltip="Archived">
+                        <i class="fas fa-archive fa-fw text-gray-400"></i>
+                        <span>ELISA</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="new" data-tooltip="Create New">
+                        <i class="fas fa-plus-circle fa-fw text-gray-400"></i>
+                        <span>ACR</span>
+                    </a>
+                </div>
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="inventory" data-tooltip="Inventory">
+                    <i class="fas fa-boxes fa-fw w-6 mr-3 "></i>
+                    <span>Inventory</span>
+                </a>
+                <div class="submenu-container" id="inventory-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="all-items" data-tooltip="All Items">
+                        <i class="fas fa-th-list fa-fw text-gray-400"></i>
+                        <span>All Items</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="stock-levels" data-tooltip="Stock Levels">
+                        <i class="fas fa-clipboard-check fa-fw text-gray-400"></i>
+                        <span>Stock Levels</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="orders" data-tooltip="Orders">
+                        <i class="fas fa-shipping-fast fa-fw text-gray-400"></i>
+                        <span>Orders</span>
+                    </a>
+                </div>
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="semen" data-tooltip="Semen Analysis">
+                    <i class="fas fa-vial fa-fw w-6 mr-3 "></i>
+                    <span>Semen Analysis</span>
+                </a>
+                <div class="submenu-container" id="semen-submenu">
+                    <a href="semen.html/comment-section" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="input" data-tooltip="Data Input">
+                        <i class="fas fa-edit fa-fw text-gray-400"></i>
+                        <span>Data Input</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="results" data-tooltip="View Results">
+                        <i class="fas fa-poll fa-fw text-gray-400"></i>
+                        <span>View Results</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="print" data-tooltip="Print Reports">
+                        <i class="fas fa-print fa-fw text-gray-400"></i>
+                        <span>Print Reports</span>
+                    </a>
+                </div>
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="reports" data-tooltip="Reports">
+                    <i class="fas fa-chart-pie fa-fw w-6 mr-3 "></i>
+                    <span>Reports</span>
+                </a>
+                <div class="submenu-container" id="reports-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="report-overview" data-tooltip="Overview">
+                        <i class="fas fa-file-alt fa-fw text-gray-400"></i>
+                        <span>Overview</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="custom" data-tooltip="Custom Reports">
+                        <i class="fas fa-cogs fa-fw text-gray-400"></i>
+                        <span>Custom Reports</span>
+                    </a>
+                </div>
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="settings" data-tooltip="Settings">
+                    <i class="fas fa-cog fa-fw w-6 mr-3 "></i>
+                    <span>Settings</span>
+                </a>
+                <div class="submenu-container" id="settings-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="account" data-tooltip="Account">
+                        <i class="fas fa-user-cog fa-fw text-gray-400"></i>
+                        <span>Account</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="team" data-tooltip="Team">
+                        <i class="fas fa-users-cog fa-fw text-gray-400"></i>
+                        <span>Team</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="notifications" data-tooltip="Notifications">
+                        <i class="fas fa-bell fa-fw text-gray-400"></i>
+                        <span>Notifications</span>
+                    </a>
+                </div>
+            </nav>
+            <div class="p-4 border-t border-gray-200 mt-auto">
+                <a href="#" class="flex items-center hover:text-blue-500">
+                    <i class="fas fa-question-circle fa-fw mr-2"></i>
+                    Help & Support
+                </a>
+            </div>
+        </aside>
+
+        <!-- Overlay for mobile sidebar -->
+        <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 md:hidden"></div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col overflow-hidden main-content-area">
+            <!-- Header -->
+            <header class="bg-white h-16 flex items-center justify-between px-4 sm:px-6 flex-shrink-0">
+                <div class="flex items-center flex-1">
+                    <button id="menu-toggle-btn" class="md:hidden mr-3 hover:text-gray-900">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <div class="relative hidden md:block mr-4">
+                        <input type="text" placeholder="Search..." class="pl-10 pr-4 py-0.5 rounded-full border">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <nav class="flex items-center " aria-label="Breadcrumb">
+                        <ol class="inline-flex items-center space-x-1 md:space-x-2" id="breadcrumb">
+                            <li class="inline-flex items-center">
+                                <a href="#" class="hover:text-blue-500 inline-flex items-center" data-page="dashboard">
+                                    <i class="fas fa-home mr-1.5"></i>
+                                    Home
+                                </a>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <i class="fas fa-chevron-right text-gray-400 mx-1.5 text-xs"></i>
+                                    <span class="font-medium" id="breadcrumb-current">Dashboard</span>
+                                </div>
+                            </li>
+                            <li id="breadcrumb-subpage-container" class="hidden">
+                                <div class="flex items-center">
+                                    <i class="fas fa-chevron-right text-gray-400 mx-1.5 text-xs"></i>
+                                    <span class="" id="breadcrumb-subpage">Sub Page</span>
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="hover: relative" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="absolute -top-1 -right-1 flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        </span>
+                    </button>
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 focus:outline-none" id="user-menu-btn" aria-haspopup="true" aria-expanded="false">
+                            <img class="h-8 w-8 rounded-full object-cover" src="https://ui-avatars.com/api/?name=User+Name&background=e0f2fe&color=0284c7" alt="User Avatar">
+                            <span class="hidden md:inline-block font-medium">User Name</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div id="user-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden ring-1 ring-black ring-opacity-5" role="menu">
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100" role="menuitem">
+                                <i class="fas fa-user-circle fa-fw mr-2"></i>Profile
+                            </a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100" role="menuitem">
+                                <i class="fas fa-cog fa-fw mr-2"></i>Settings
+                            </a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100" role="menuitem">
+                                <i class="fas fa-sign-out-alt fa-fw mr-2"></i>Sign out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6" id="main-content">
+                <div class="page-content active" id="dashboard-content">
+                    <iframe id="dashboard-iframe" data-src="dashboard.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="calculations-content">
+                    <div class="loading-container hidden" id="calculations-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="calculations-iframe" data-src="calculations.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="inventory-content">
+                    <div class="loading-container hidden" id="inventory-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="inventory-iframe" data-src="inventory.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="reports-content">
+                    <div class="loading-container hidden" id="reports-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="reports-iframe" data-src="reports.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="settings-content">
+                    <div class="loading-container hidden" id="settings-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="settings-iframe" data-src="settings.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="semen-content">
+                    <div class="loading-container hidden" id="semen-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="semen-iframe" data-src="semen.html" class="w-full h-full"></iframe>
+                </div>
+            </main>
+
+            <!-- Bottom Navigation (Mobile Only) -->
+            <nav class="bottom-nav md:hidden fixed bottom-0 left-0 right-0 bg-white flex items-center justify-around border-t border-gray-200" role="navigation" aria-label="Mobile main navigation">
+                <a href="#" class="bottom-nav-item flex-1 flex flex-col items-center justify-center py-2 text-center active" data-page="dashboard" aria-label="Navigate to Dashboard" aria-current="page">
+                    <i class="fas fa-tachometer-alt text-xl mb-0.5"></i>
+                    <span class="text-xs font-medium">Dashboard</span>
+                </a>
+                <a href="#" class="bottom-nav-item flex-1 flex flex-col items-center justify-center py-2 text-center" data-page="calculations" aria-label="Navigate to calculations">
+                    <i class="fas fa-flask text-xl mb-0.5"></i>
+                    <span class="text-xs font-medium">calculations</span>
+                </a>
+                <a href="#" class="bottom-nav-item flex-1 flex flex-col items-center justify-center py-2 text-center" data-page="inventory" aria-label="Navigate to Inventory">
+                    <i class="fas fa-boxes text-xl mb-0.5"></i>
+                    <span class="text-xs font-medium">Inventory</span>
+                </a>
+                <a href="#" class="bottom-nav-item flex-1 flex flex-col items-center justify-center py-2 text-center" data-page="semen" aria-label="Navigate to Semen Analysis">
+                    <i class="fas fa-vial text-xl mb-0.5"></i>
+                    <span class="text-xs font-medium">Semen</span>
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <script>
+        const pages = {
+            dashboard: { title: 'Dashboard', url: 'dashboard.html' },
+            calculations: {
+                title: 'Calculations',
+                url: 'calculations.html',
+                subpages: {
+                    all: { title: 'All Calculations', url: 'calculations.html#all' },
+                    active: { title: 'Dilution', url: 'calculations.html#active' },
+                    archived: { title: 'ELISA', url: 'calculations.html#archived' },
+                    new: { title: 'ACR', url: 'calculations.html#new' },
+                    egfr: { title: 'eGFR Calculation', url: 'egfr.html' }
+                }
+            },
+            inventory: { title: 'Inventory', url: 'inventory.html' },
+            reports: { title: 'Reports', url: 'reports.html' },
+            settings: { title: 'Settings', url: 'settings.html' },
+            semen: { title: 'Semen Analysis', url: 'semen.html' }
+        };
+
+        const sidebar = document.getElementById('sidebar');
+        const sidebarNav = document.getElementById('sidebar-nav');
+        const menuToggleBtn = document.getElementById('menu-toggle-btn');
+        const overlay = document.getElementById('overlay');
+        const userMenuBtn = document.getElementById('user-menu-btn');
+        const userDropdown = document.getElementById('user-dropdown');
+        const bottomNav = document.querySelector('.bottom-nav');
+        const breadcrumbCurrent = document.getElementById('breadcrumb-current');
+        const breadcrumbSubpageContainer = document.getElementById('breadcrumb-subpage-container');
+        const breadcrumbSubpage = document.getElementById('breadcrumb-subpage');
+        const pageContents = document.querySelectorAll('.page-content');
+        const submenuContainers = document.querySelectorAll('.submenu-container');
+
+        class NavManager {
+            constructor() {
+                this.currentPage = localStorage.getItem('currentPage') || 'dashboard';
+                this.currentSubPage = localStorage.getItem('currentSubPage') || null;
+                this.initEventListeners();
+                this.loadInitialPage();
+                this.handleResponsive();
+            }
+
+            initEventListeners() {
+                menuToggleBtn.addEventListener('click', () => this.toggleSidebar());
+                overlay.addEventListener('click', () => this.closeSidebar());
+
+                userMenuBtn.addEventListener('click', () => {
+                    const isHidden = userDropdown.classList.toggle('hidden');
+                    userMenuBtn.setAttribute('aria-expanded', !isHidden);
+                });
+                document.addEventListener('click', (e) => {
+                    if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+                        userDropdown.classList.add('hidden');
+                        userMenuBtn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                document.addEventListener('click', (e) => {
+                    const mainPageLink = e.target.closest('.sidebar-main-item[data-page], a[data-page]:not(.sidebar-main-item)');
+                    const subPageLink = e.target.closest('.sidebar-submenu-item[data-subpage]');
+                    const statCard = e.target.closest('.stat-card[data-page][data-subpage]');
+
+                    if (mainPageLink && mainPageLink.dataset.page) {
+                        e.preventDefault();
+                        const pageId = mainPageLink.dataset.page;
+                        if (pageId !== this.currentPage) {
+                            this.changePage(pageId);
+                        } else {
+                            const submenu = document.getElementById(`${pageId}-submenu`);
+                            if (submenu) this.toggleSubmenu(submenu);
+                        }
+                    } else if (subPageLink && subPageLink.dataset.subpage) {
+                        e.preventDefault();
+                        const subPageId = subPageLink.dataset.subpage;
+                        const parentPageId = subPageLink.closest('.submenu-container').id.replace('-submenu', '');
+                        this.changeSubPage(parentPageId, subPageId, subPageLink);
+                        if (window.innerWidth < 768 && !sidebar.classList.contains('-translate-x-full')) {
+                            this.closeSidebar();
+                        }
+                    } else if (statCard && statCard.dataset.page && statCard.dataset.subpage) {
+                        e.preventDefault();
+                        const pageId = statCard.dataset.page;
+                        const subPageId = statCard.dataset.subpage;
+                        this.changePage(pageId);
+                        const subItem = document.querySelector(`#${pageId}-submenu .sidebar-submenu-item[data-subpage="${subPageId}"]`);
+                        if (subItem) {
+                            this.changeSubPage(pageId, subPageId, subItem);
+                        }
+                    }
+                });
+
+                sidebarNav.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        const item = e.target.closest('.sidebar-item');
+                        if (item) item.click();
+                    }
+                });
+
+                window.addEventListener('resize', this.debounce(() => this.handleResponsive(), 150));
+            }
+
+            toggleSubmenu(submenu) {
+                const submenuId = submenu.id;
+                const openingDuration = 300;
+                const closingDuration = 100;
+
+                if (submenu.classList.contains('active')) {
+                    submenu.style.height = `${submenu.scrollHeight}px`;
+                    submenu.offsetHeight;
+                    submenu.style.height = '0';
+                    submenu.style.transform = 'scaleY(0)';
+                    submenu.style.padding = '0';
+                    submenu.classList.remove('active');
+                    setTimeout(() => {
+                        if (!submenu.classList.contains('active')) {
+                            submenu.style.height = '';
+                            submenu.style.transform = '';
+                            submenu.style.padding = '';
+                        }
+                    }, closingDuration);
+                    if (localStorage.getItem('openSubmenuId') === submenuId) {
+                        localStorage.removeItem('openSubmenuId');
+                    }
+                    this.openSubmenuId = null;
+                } else {
+                    const activeSubmenu = document.querySelector('.submenu-container.active');
+                    const openTargetSubmenu = () => {
+                        submenu.classList.add('active');
+                        submenu.style.height = '0';
+                        submenu.style.transform = 'scaleY(0)';
+                        submenu.style.padding = '0';
+                        submenu.offsetHeight;
+                        submenu.style.height = `${submenu.scrollHeight}px`;
+                        submenu.style.transform = 'scaleY(1)';
+                        submenu.style.padding = '1.5rem 0';
+                        setTimeout(() => {
+                            if (submenu.classList.contains('active')) {
+                                submenu.style.height = 'auto';
+                            }
+                        }, openingDuration);
+                        localStorage.setItem('openSubmenuId', submenuId);
+                        this.openSubmenuId = submenuId;
+                    };
+
+                    if (activeSubmenu && activeSubmenu !== submenu) {
+                        activeSubmenu.style.height = `${activeSubmenu.scrollHeight}px`;
+                        activeSubmenu.offsetHeight;
+                        activeSubmenu.style.height = '0';
+                        activeSubmenu.style.transform = 'scaleY(0)';
+                        activeSubmenu.style.padding = '0';
+                        activeSubmenu.classList.remove('active');
+                        if (localStorage.getItem('openSubmenuId') === activeSubmenu.id) {
+                            localStorage.removeItem('openSubmenuId');
+                        }
+                        setTimeout(() => {
+                            if (!activeSubmenu.classList.contains('active')) {
+                                activeSubmenu.style.height = '';
+                                activeSubmenu.style.transform = '';
+                                activeSubmenu.style.padding = '';
+                            }
+                            openTargetSubmenu();
+                        }, closingDuration - 100);
+                    } else {
+                        openTargetSubmenu();
+                    }
+                }
+            }
+
+            toggleSidebar() {
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('active');
+            }
+
+            closeSidebar() {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.remove('active');
+            }
+
+            loadInitialPage() {
+                this.currentPage = localStorage.getItem('currentPage') || 'dashboard';
+                this.currentSubPage = localStorage.getItem('currentSubPage') || null;
+                this.openSubmenuId = localStorage.getItem('openSubmenuId') || null;
+                this.changePage(this.currentPage, true);
+            }
+
+            changePage(pageId, isInitialLoad = false) {
+                if (!pages[pageId]) return;
+
+                document.querySelectorAll('.sidebar-submenu-item.active').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                const previousPage = this.currentPage;
+                this.currentPage = pageId;
+                localStorage.setItem('currentPage', pageId);
+
+                const pageContent = document.getElementById(`${pageId}-content`);
+                const iframe = document.getElementById(`${pageId}-iframe`);
+                const loadingElement = document.getElementById(`${pageId}-loading`);
+
+                if (!isInitialLoad) {
+                    this.currentSubPage = null;
+                    localStorage.removeItem('currentSubPage');
+                }
+
+                if (pageContent) {
+                    pageContents.forEach(page => {
+                        if (page.id !== `${pageId}-content`) {
+                            page.classList.remove('active');
+                        }
+                    });
+
+                    if (loadingElement) loadingElement.classList.remove('hidden');
+
+                    setTimeout(() => pageContent.classList.add('active'), 50);
+
+                    if (iframe && (!iframe.src || iframe.getAttribute('data-src') !== iframe.src) && iframe.dataset.src) {
+                        iframe.src = iframe.dataset.src;
+                        iframe.onload = () => {
+                            if (loadingElement) loadingElement.classList.add('hidden');
+                            iframe.style.height = '100%';
+                            iframe.style.width = '100%';
+                        };
+                        iframe.onerror = () => {
+                            if (loadingElement) loadingElement.classList.add('hidden');
+                            pageContent.innerHTML = `<div class="text-red-600 p-4">Error loading content. Please try again later.</div>`;
+                        };
+                    } else if (iframe && iframe.src) {
+                        if (loadingElement) loadingElement.classList.add('hidden');
+                        iframe.style.height = '100%';
+                        iframe.style.width = '100%';
+                    } else {
+                        if (loadingElement) loadingElement.classList.add('hidden');
+                    }
+                } else {
+                    document.querySelectorAll('.loading-container').forEach(spinner => spinner.classList.add('hidden'));
+                }
+
+                this.updateNavigation(pageId);
+                this.updateSubmenuVisibility(pageId, isInitialLoad);
+                breadcrumbCurrent.textContent = pages[pageId].title;
+            }
+
+            changeSubPage(parentPageId, subPageId, clickedElement) {
+                if (parentPageId !== this.currentPage) {
+                    this.changePage(parentPageId);
+                    return;
+                }
+
+                this.currentSubPage = subPageId;
+                localStorage.setItem('currentSubPage', subPageId);
+
+                const currentSubmenu = document.getElementById(`${parentPageId}-submenu`);
+                if (currentSubmenu) {
+                    currentSubmenu.querySelectorAll('.sidebar-submenu-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    if (clickedElement) {
+                        clickedElement.classList.add('active');
+                        breadcrumbSubpage.textContent = clickedElement.querySelector('span').textContent;
+                        breadcrumbSubpageContainer.classList.remove('hidden');
+                    }
+                }
+
+                if (parentPageId === 'calculations') {
+                    const iframe = document.getElementById('calculations-iframe');
+                    const loadingElement = document.getElementById('calculations-loading');
+                    let newSrc = 'calculations.html';
+
+                    if (subPageId === 'egfr') {
+                        newSrc = 'egfr.html';
+                    } else if (subPageId === 'all') {
+                        newSrc = 'calculations.html#all';
+                    } else if (subPageId === 'active') {
+                        newSrc = 'calculations.html#active';
+                    } else if (subPageId === 'archived') {
+                        newSrc = 'calculations.html#archived';
+                    } else if (subPageId === 'new') {
+                        newSrc = 'calculations.html#new';
+                    }
+
+                    if (iframe && newSrc !== iframe.src) {
+                        if (loadingElement) loadingElement.classList.remove('hidden');
+                        iframe.src = newSrc;
+                        iframe.onload = () => {
+                            if (loadingElement) loadingElement.classList.add('hidden');
+                            iframe.style.height = '100%';
+                            iframe.style.width = '100%';
+                        };
+                        iframe.onerror = () => {
+                            if (loadingElement) loadingElement.classList.add('hidden');
+                            document.getElementById('calculations-content').innerHTML = `<div class="text-red-600 p-4">Error loading content. Please try again later.</div>`;
+                        };
+                    } else {
+                        iframe.style.height = '100%';
+                        iframe.style.width = '100%';
+                    }
+                }
+            }
+
+            updateNavigation(pageId) {
+                sidebarNav.querySelectorAll('.sidebar-main-item').forEach(item => {
+                    item.classList.toggle('active', item.dataset.page === pageId);
+                });
+
+                bottomNav.querySelectorAll('.bottom-nav-item').forEach(item => {
+                    if (item.dataset.page) {
+                        item.classList.toggle('active', item.dataset.page === pageId);
+                        item.setAttribute('aria-current', item.dataset.page === pageId ? 'page' : 'false');
+                    }
+                });
+            }
+
+            updateSubmenuVisibility(pageId, isInitialLoad = false) {
+                const targetSubmenu = document.getElementById(`${pageId}-submenu`);
+                const savedOpenSubmenuId = isInitialLoad ? this.openSubmenuId : null;
+
+                submenuContainers.forEach(container => {
+                    if (container.id !== `${pageId}-submenu` && container.classList.contains('active')) {
+                        this.toggleSubmenu(container);
+                    }
+                });
+
+                breadcrumbSubpageContainer.classList.add('hidden');
+
+                if (targetSubmenu) {
+                    if (isInitialLoad && savedOpenSubmenuId && targetSubmenu.id === savedOpenSubmenuId) {
+                        if (!targetSubmenu.classList.contains('active')) {
+                            targetSubmenu.classList.add('active');
+                            targetSubmenu.style.height = 'auto';
+                            targetSubmenu.style.transform = 'scaleY(1)';
+                            targetSubmenu.style.padding = '1.5rem 0';
+                        }
+                    } else if (!isInitialLoad && !targetSubmenu.classList.contains('active')) {
+                        this.toggleSubmenu(targetSubmenu);
+                    }
+
+                    let subItemToActivate = null;
+                    if (this.currentSubPage) {
+                        subItemToActivate = targetSubmenu.querySelector(`.sidebar-submenu-item[data-subpage="${this.currentSubPage}"]`);
+                    }
+                    if (!subItemToActivate) {
+                        subItemToActivate = targetSubmenu.querySelector('.sidebar-submenu-item');
+                        if (subItemToActivate) {
+                            this.currentSubPage = subItemToActivate.dataset.subpage;
+                            if (!isInitialLoad) {
+                                localStorage.setItem('currentSubPage', this.currentSubPage);
+                            }
+                        } else {
+                            this.currentSubPage = null;
+                            localStorage.removeItem('currentSubPage');
+                        }
+                    }
+
+                    targetSubmenu.querySelectorAll('.sidebar-submenu-item.active').forEach(activeItem => {
+                        if (activeItem !== subItemToActivate) {
+                            activeItem.classList.remove('active');
+                        }
+                    });
+
+                    if (subItemToActivate) {
+                        subItemToActivate.classList.add('active');
+                        breadcrumbSubpage.textContent = subItemToActivate.querySelector('span').textContent;
+                        breadcrumbSubpageContainer.classList.remove('hidden');
+                    }
+                } else {
+                    breadcrumbSubpageContainer.classList.add('hidden');
+                    if (!isInitialLoad) {
+                        this.currentSubPage = null;
+                        localStorage.removeItem('currentSubPage');
+                    }
+                    localStorage.removeItem('openSubmenuId');
+                    this.openSubmenuId = null;
+                }
+            }
+
+            handleResponsive() {
+                if (window.innerWidth >= 768) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('active');
+                } else {
+                    if (!overlay.classList.contains('active')) {
+                        sidebar.classList.add('-translate-x-full');
+                    }
+                }
+            }
+
+            debounce(fn, wait) {
+                let timeout;
+                return (...args) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => fn.apply(this, args), wait);
+                };
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navManager = new NavManager();
+        });
+        
+    </script>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93a8dc5b5cf5bfe7',t:'MTc0NjM3MDc1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>

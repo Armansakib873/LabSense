@@ -1,0 +1,312 @@
+
+/* css/elisa.css - Styles specific to the ELISA Calculator Page */
+/* ========================================================= */
+
+/* CSS Variables - Page Specific Overrides or Additions (if needed) */
+:root {
+    /* Define ELISA page specific variables here if necessary, e.g., */
+    /* --elisa-container-bg-color: ; */
+}
+
+/* ------------------------------------- */
+/*              Parent Container         */
+/* ------------------------------------- */
+.parent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center containers horizontally */
+    padding: 20px;
+}
+
+.parent h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color); /* Use text color variable */
+    text-align: center; /* Center the main heading */
+    width: 100%; /* Full width for heading */
+    margin-bottom: 20px; /* Add margin below heading */
+}
+
+/* ------------------------------------- */
+/*              Main Container          */
+/* ------------------------------------- */
+.container {
+    background-color: var(--input-background); /* Use input background variable */
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Darker shadow for dark theme */
+    transition: transform var(--transition-speed);
+    margin-bottom: 20px;
+    padding: 40px;
+    font-size: 0.8rem;
+    color: var(--text-color); /* Use text color variable */
+}
+
+.container {
+    flex: 1;
+    min-width: 300px;
+    max-width: 800px;
+    height: auto; /* Adjusted height to auto to fit content */
+    margin-right: 20px;
+}
+
+/* ------------------------------------- */
+/*          Information Container       */
+/* ------------------------------------- */
+.container2 {
+    flex: 1;
+    height: auto; /* Adjusted height to auto to fit content */
+    min-width: 300px;
+    max-width: 600px;
+    overflow-y: auto; /* Enable vertical scroll if content overflows */
+    transition: transform var(--transition-speed);
+    margin-bottom: 20px;
+    padding: 40px;
+    font-size: 0.8rem;
+    color: var(--text-color); /* Use text color variable */
+    background-color: var(--input-background); /* Match container background */
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Darker shadow for dark theme */
+}
+
+.container2 h1, .container2 h2, .container2 h3, .container2 p {
+    color: var(--text-color); /* Ensure text within container2 is also using text-color variable */
+}
+
+/* ------------------------------------- */
+/*            Input Section             */
+/* ------------------------------------- */
+.input-section {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--background-color); /* Use background color variable for contrast */
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Darker shadow for dark theme */
+}
+
+/* Hover Message Styles */
+.hover-message {
+    position: absolute;
+    color: var(--text-color); /* Use text color variable */
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    margin-top: 5px;
+    font-size: 0rem;
+    background-color: hsla(210, 100%, 60%, 0.7); /* Semi-transparent primary color for hover message background */
+    padding: 0;
+    border-radius: var(--border-radius);
+    letter-spacing: 1px;
+    margin-left: 300px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--primary-color); /* Add border to hover message */
+}
+
+input:hover + .hover-message {
+    font-size: 1rem;
+    width: 120px;
+    height: auto;
+    padding: 10px;
+    margin-left: 300px;
+}
+
+/* Input Group Styles */
+.input-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: inline-block;
+    width: 120px;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color); /* Use text color variable for labels */
+}
+
+/* Number Input Styles */
+input[type="number"] {
+    width: 150px;
+    padding: 0.5rem;
+    border: 2px solid var(--secondary-color); /* Use secondary color variable for input border */
+    border-radius: var(--border-radius);
+    background-color: var(--background-color); /* Match input background to section background */
+    color: var(--text-color); /* Use text color variable for input text */
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+input[type="number"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.4); /* Use rgba for primary color for transparency if needed - define --primary-color-rgb in :root if needed */
+    outline: none;
+}
+
+/* ------------------------------------- */
+/*             ELISA Buttons             */
+/* ------------------------------------- */
+.elisa-buttons button {
+    background-color: var(--primary-color);
+    color: var(--text-color); /* Use text color variable for button text */
+    width: 70px; /* Adjusted button width for better fit */
+    align-items: center;
+    text-align: center;
+    height: 35px; /* Adjusted button height */
+    border: none;
+    margin: 0.5rem 4px; /* Adjusted button margins */
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 0.75rem; /* Adjusted font size */
+    font-weight: 600; /* Slightly reduced font weight */
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+}
+
+.elisa-buttons button:hover {
+    background-color: hsla(210, 100%, 60%, 0.85); /* Slightly lighter primary color on hover */
+    transform: scale(1.05); /* Reduced scale on hover */
+}
+
+/* Reset Button Style - Specific if needed */
+.elisa-buttons button.reset {
+    background-color: var(--secondary-color); /* Use secondary color for reset button */
+    color: var(--text-color);
+}
+.elisa-buttons button.reset:hover {
+    background-color: hsla(220, 20%, 60%, 0.85); /* Slightly lighter secondary color on hover */
+}
+
+
+/* ------------------------------------- */
+/*              Dropdown Styles          */
+/* ------------------------------------- */
+/* Consider if these dropdown styles should be moved to styles.css if used elsewhere */
+#patientCount {
+    padding: 8px 12px;
+    border: 1px solid var(--secondary-color); /* Use secondary color variable for dropdown border */
+    border-radius: var(--border-radius);
+    background-color: var(--background-color); /* Use background color variable */
+    color: var(--text-color); /* Use text color variable */
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    appearance: none; /* Reset default appearance for better cross-browser styling */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none;    /* For Firefox */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23f8f8f8" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>'); /* Custom dropdown arrow icon (light color) */
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: 5px;
+    padding-right: 25px; /* Space for arrow icon */
+}
+
+/* Hover and focus styles for dropdown */
+#patientCount:hover {
+    border-color: var(--primary-color); /* Change border color on hover to primary */
+}
+
+#patientCount:focus {
+    outline: none;
+    border-color: var(--primary-color); /* Change border color on focus to primary */
+    box-shadow: 0 0 5px rgba(var(--primary-color-rgb), 0.5); /* Shadow on focus using primary color */
+}
+
+/* Style for select options */
+#patientCount option {
+    padding: 10px;
+    font-size: 14px;
+    background-color: var(--input-background); /* Option background color */
+    color: var(--text-color); /* Option text color */
+}
+
+
+/* ------------------------------------- */
+/*               Table Styles            */
+/* ------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 2rem;
+    background-color: var(--input-background); /* Use input background variable */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Darker shadow for dark theme */
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--secondary-color); /* Use secondary color variable for table border */
+}
+
+th {
+    background-color: var(--primary-color);
+    color: var(--text-color); /* Use text color variable for table header text */
+    font-weight: 600;
+    word-spacing: 5px;
+}
+
+tr:last-child td {
+    border-bottom: none; /* Remove border from last row */
+}
+
+tr:nth-child(even) {
+    background-color: hsla(0, 0%, 0%, 0.1); /* Darker shade for even rows for dark theme */
+}
+
+/* Bold Red Class for Results */
+.bold-red {
+    color: hsl(0, 70%, 60%); /* Adjusted red for dark theme - slightly less bright */
+    font-weight: bold;
+    animation: pulse 0.5s ease-out; /* Keep pulse animation */
+}
+
+/* ------------------------------------- */
+/*           Responsive Design          */
+/* ------------------------------------- */
+/* Media query for screens up to 1200px width */
+@media (max-width: 1200px) {
+    .parent {
+        flex-direction: column; /* Stack containers vertically on smaller screens */
+    }
+    .container, .container2 {
+        max-width: 100%; /* Full width for containers on smaller screens */
+        margin-right: 0; /* Remove right margin when stacked */
+    }
+    input:hover + .hover-message { /* Adjust hover message position for smaller screens */
+        margin-left: 200px;
+    }
+}
+
+/* Media query for screens up to 768px width (typical tablets) */
+@media (max-width: 768px) {
+    .container, .container2 {
+        width: 100%; /* Full width for containers on tablets */
+        margin: 10px 0; /* Adjust vertical margin on tablets */
+        padding: 30px; /* Slightly reduced padding on tablets */
+    }
+    input:hover + .hover-message {
+        font-size: 0.875rem; /* Smaller font size for hover message on tablets */
+        width: 100px;
+        padding: 10px;
+        margin-left: 160px; /* Adjust hover message position for tablets */
+    }
+}
+
+/* Media query for screens up to 600px width (typical mobile phones) */
+@media (max-width: 600px) {
+    .container, .container2 {
+        padding: 1rem; /* Reduced padding on mobile */
+    }
+    input[type="number"] {
+        width: 80%; /* Make number inputs wider on mobile */
+    }
+    table {
+        font-size: 0.875rem; /* Smaller font size for table on mobile */
+    }
+    th, td {
+        padding: 0.75rem; /* Reduced padding for table cells on mobile */
+    }
+    input:hover + .hover-message {
+        margin-left: 120px; /* Further adjust hover message position for mobile */
+    }
+}

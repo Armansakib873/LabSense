@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ThyroLab</title>
+        <link rel="icon" href="../assets/images/apple-touch-icon.png">
+        <link rel="stylesheet" href="../css/styles.css">
+        <link rel="stylesheet" href="../css/elisa.css">
+        <script src="https://unpkg.com/lucide@latest"></script>
+        
+    </head>
+<body data-page="calculation">
+    <div class="sidebar collapsed" id="sidebar">
+        <div class="sidebar-header">
+            <button id="toggleBtn" class="toggle-btn">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <span class="sidebar-title"> ELISA</span>
+             
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html"><i data-lucide="home"></i><span>Home</span></a></li>
+                <li class="has-submenu" data-submenu-id="calculations-submenu">
+                    <a href="#"><i data-lucide="calculator"></i><span>Calculations</span><i data-lucide="chevron-down" class="submenu-icon"></i></a>
+                    <ul class="submenu">
+                        <li class="active" ><a href="pages/elisa.html">ELISA</a></li>
+                        <li><a href="pages/egfr.html">eGFR</a></li>
+                        <li><a href="pages/dilution.html">Dilution</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#"><i data-lucide="file-text"></i><span>Documents</span><i data-lucide="chevron-down" class="submenu-icon"></i></a>
+                    <ul class="submenu">
+                        <li><a href="pages/excel.html">Excel</a></li>
+                        <li><a href="#cap">CAP</a></li>
+                        <li><a href="#">Websites</a></li>
+                        <li><a href="#">Other</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i data-lucide="bar-chart"></i><span>Projects</span></a></li>
+                <li><a href="#"><i data-lucide="list"></i><span>Todo-Lists</span></a></li>
+                <li><a href="#"><i data-lucide="calendar"></i><span>Calendar</span></a></li>
+                <li><a href="#"><i data-lucide="user"></i><span>Profile</span></a></li>
+            </ul>
+        </nav>
+        
+    </div>
+    <main>
+        <header>
+            <div class="thyrocare-logo">
+              
+              <a href="https://www.thyrocarebd.com/" target="_blank"><img src="https://www.thyrocarebd.com/images/logo.png" alt="Thyrocare Logo"></a>
+            </div>
+
+                <div class="cap">
+                   <a href="https://www.cap.org/" target="_blank"><img src="cap.png" alt="cap"></a> 
+                </div>
+
+<div class="sidelogo">
+<a class="black-logo" href="index.html" aria-label="ThyroLab Home">
+    <img src="logo3.png" alt="ThyroLab Logo" />
+    ThyroLab
+</a>
+
+</div>
+</header>
+      
+ <div class="parent">
+    <div class="container" id="container">
+        <h1>Factor Calculation for ELISA</h1>
+        
+        <div class="input-section">
+            <form id="calculationForm">
+                <div class="input-group">
+                    <label for="factor">Factor:</label>
+                    
+                    <input type="number" id="factor" aria-label="Factor" step="0.01" required oninput="calculateCF()" onkeydown="moveToNextField(event, 'conc')">
+                    <div class="hover-message">ANA: 0.35 <br> H. Pylori: 0.35 <br>DNA: 0.38</div>
+                </div>
+                
+                
+                <div class="input-group">
+                    <label for="conc">Cal Conc:</label>
+                    <input type="number" id="conc" aria-label="Concentration" step="0.001" required oninput="calculateCF()" onkeydown="moveToNextField(event, 'resetButton')">
+                </div>
+                
+                <div class="input-group">
+                    <label for="cf">CF:</label>
+                    <input type="number" id="cf" aria-label="CF" readonly>
+                </div>
+
+
+            </form>
+            <div class ="elisa-buttons">
+            <button type="button" class="reset" id="resetButton">Clear</button><br>
+            <button class="print" id="printButton" onclick="printDiv('container')">Print</button>
+            </div>
+        </div>
+
+        <table id="patientTable">
+            <thead>
+                <tr>
+                    <th>P. ID </th>
+                    <th>Test Conc.</th>
+                    <th>Calculated Results</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically generated -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container2">
+
+        <h1>Important information for ELISA</h1>
+        <h2>Principle of ELISA</h2>
+<p>The principle of ELISA is based on the binding of an antigen (Ag) to its specific antibody (Ab). The antigen or antibody is immobilized on a solid surface (usually a 96-well microtiter plate), and the detection of this antigen-antibody complex is amplified using an enzyme that produces a measurable color change in the presence of its substrate.</p>
+
+<h2>Types of ELISA</h2>
+<h3>Direct ELISA</h3>
+<p>In direct ELISA, an antigen is adsorbed onto a solid surface, and a labeled primary antibody (conjugated with an enzyme) is added to bind the antigen. After washing away unbound antibodies, a substrate is added, and the enzyme converts the substrate into a colored product. <br> Example: Detection of viral proteins in a sample.</p>
+
+<h3>Indirect ELISA</h3>
+<p>This involves the use of an unlabeled primary antibody specific to the antigen and a labeled secondary antibody (conjugated to an enzyme) that binds to the primary antibody. The secondary antibody amplifies the signal and leads to more sensitive detection. <br> Example: Measurement of antibodies in blood (e.g., HIV antibody testing).</p>
+<h3>Sandwich ELISA</h3>
+<p>In this type, a "capture" antibody is first coated onto the plate, and the antigen of interest is added and bound by this antibody. A second antibody (detection antibody) binds to another epitope of the antigen. This forms a "sandwich" of antibody-antigen-antibody, which is then detected using a labeled secondary antibody or directly if the detection antibody is labeled.
+
+    <br>   Example: Detection of cytokines (e.g., IL-6) in serum.</p>
+<h3>Competitive ELISA</h3>
+<p>In competitive ELISA, the sample antigen competes with a labeled antigen for binding to the primary antibody. The decrease in signal (due to reduced binding of labeled antigen) correlates with the amount of antigen in the sample.
+
+    <br> Example: Detection of small molecules like hormones or drugs (e.g., testosterone levels).</p>
+<h2>Uses of ELISA</h2>
+<p>Medical diagnostics: Used to diagnose infections (e.g., HIV, Hepatitis B, COVID-19), autoimmune diseases, and allergies. <br>
+    Research: For detecting and quantifying proteins, peptides, hormones, and antibodies in biological samples. <br>
+    Food industry: Detection of food allergens (e.g., peanuts, gluten). <br>
+    Environmental science: Detection of contaminants (e.g., pesticides) in water or soil samples.</p> 
+<h2>Steps in ELISA Procedure</h2>
+<p>
+Coating: A known antigen or antibody is adsorbed onto a microplate well. <br>
+Blocking: Unbound sites are blocked with a protein solution (e.g., BSA or skim milk) to prevent non-specific binding.<br>
+Incubation: The sample containing the antigen or antibody is added to the well and incubated for binding.<br>
+Washing: Excess unbound molecules are washed away using a buffer.<br>
+Detection: The enzyme-conjugated antibody is added for detection, followed by another washing step.<br>
+Substrate addition: A substrate is added that reacts with the enzyme to produce a color change.<br>
+Reading: The intensity of the color change is measured using a spectrophotometer.
+</p>
+<h2>Instructions for Better Results During Manual Testing</h2>
+<p>Proper Plate Coating: Ensure uniform coating of antigen or antibody by using optimized concentrations and following the incubation times recommended by the protocol.<br>
+    Efficient Washing: Ensure thorough washing to remove unbound antibodies or reagents, as inadequate washing can lead to high background and false-positive results.<br>
+    Avoid Contamination: Use fresh pipette tips and wear gloves to avoid sample contamination.<br>
+    Incubation Conditions: Maintain proper incubation temperature and time. Variations can affect antibody binding and enzyme activity.<br>
+    Substrate Handling: Avoid exposure of substrates to light before use, as some are light-sensitive. Use fresh substrate solutions to avoid compromised reactions.<br>
+    Control Wells: Always include positive and negative controls to validate the assay performance.<br>
+    Minimize Edge Effects: Use a humidified chamber for plate incubation to prevent evaporation at the edges, which can cause uneven results.</p>
+
+    </div>
+
+</div> 
+
+<footer>
+    <p>Copyright: All rights Reserved</p>
+</footer>
+
+        
+</main>
+
+
+
+<script src="/js/common.js"></script>
+<script src="/js/elisa.js"></script>
+</body>
+</html>

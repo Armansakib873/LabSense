@@ -1,0 +1,166 @@
+
+:root {
+    /* Updated Light and Professional Color Palette */
+    --home-primary-color: hsl(210, 100%, 60%);        /*  A bright, clean blue for accents */
+    --home-secondary-color: hsl(220, 30%, 92%);      /*  Very light gray-blue for subtle backgrounds */
+    --home-background-color: hsl(0, 0%, 98%);        /*  Almost white background */
+    --home-background-color-hover: hsl(210, 40%, 94%); /*  Slightly darker light gray-blue for hover */
+    --home-card-color: #ffffff;                       /*  Pure white for cards */
+    --home-text-color: hsl(240, 10%, 30%);           /*  Darker gray for readable text */
+    --home-border-radius: 10px;                        /*  Slightly less rounded corners for a modern look */
+    --home-transition-speed: 0.2s;                     /*  Slightly faster transition for responsiveness */
+    --home-card-height: clamp(120px, 15vh, 150px);
+    --home-shadow-color: rgba(0, 0, 0, 0.08);         /*  Very subtle shadow */
+    --home-container-padding: clamp(20px, 6vw, 40px);
+  }
+
+  .home-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: var(--home-container-padding);
+    padding: var(--home-container-padding);
+    margin: 2rem;
+    background-color: var(--home-background-color);
+    border-radius: var(--home-border-radius);
+  }
+
+
+  .home-container-link {
+    width: 100%; /* Changed to 100% width to fill container */
+    height: var(--home-card-height);
+    background-color: var(--home-card-color);
+    border-radius: var(--home-border-radius);
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--home-text-color);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    isolation: isolate;
+
+    transform: translateZ(0);
+    backface-visibility: hidden;
+
+    transition: background-color var(--home-transition-speed), transform var(--home-transition-speed), box-shadow var(--home-transition-speed); /* Added background-color and box-shadow to transition */
+
+
+    box-shadow: 0 2px 8px var(--home-shadow-color); /*  More subtle, standard shadow - removed inset shadows */
+    border: 1px solid var(--home-secondary-color); /* Added a very light border for definition */
+  }
+
+  .home-container-link h2 {
+    margin: 0;
+    padding: 0.8em;
+    text-align: center;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    font-weight: 500; /*  Slightly lighter font weight for a cleaner look */
+    transition: transform var(--home-transition-speed) ease;
+    word-wrap: break-word;
+    max-width: 100%;
+  }
+
+  /* Hover effects with reduced motion preference support */
+  @media (prefers-reduced-motion: no-preference) {
+    .home-container-link:hover {
+      background-color: var(--home-background-color-hover); /* Light background hover */
+      transform: translateY(-3px); /* Slightly reduced lift effect */
+      box-shadow: 0 6px 12px var(--home-shadow-color); /*  Slightly stronger shadow on hover */
+      border-color: transparent; /* Remove border on hover for cleaner look */
+    }
+
+    .home-container-link:hover h2 {
+      transform: scale(1.03); /* Reduced scale effect */
+    }
+  }
+
+  /* Active state */
+  .home-container-link:active {
+    transform: translateY(1px); /* Reduced active state movement */
+    box-shadow: 0 2px 4px var(--home-shadow-color); /*  Even more subtle shadow when active */
+    background-color: var(--home-secondary-color); /* Very light background on active */
+    border-color: var(--home-secondary-color); /* Keep border color consistent with background */
+  }
+
+  /* Focus styles for accessibility */
+  .home-container-link:focus-visible {
+    outline: 2px solid var(--home-primary-color); /*  Reduced outline thickness */
+    outline-offset: 2px;
+  }
+
+  /* Dark mode support - Adjusted for light professional look in dark mode as well */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --home-background-color: hsl(240, 10%, 12%);       /* Darker background for dark mode */
+      --home-background-color-hover: hsl(240, 10%, 18%);  /* Slightly lighter hover background in dark mode */
+      --home-card-color: hsl(240, 10%, 18%);            /* Darker card color for dark mode */
+      --home-text-color: hsl(0, 0%, 93%);               /* Light text color for dark mode */
+      --home-shadow-color: rgba(0, 0, 0, 0.3);          /*  Slightly stronger shadow in dark mode */
+      --home-secondary-color: hsl(240, 10%, 24%);       /* Slightly lighter secondary color in dark mode */
+    }
+    .home-container-link {
+        border: 1px solid var(--home-secondary-color); /* Keep border in dark mode, adjust color */
+    }
+    @media (prefers-reduced-motion: no-preference) {
+        .home-container-link:hover {
+            border-color: transparent; /* Remove border on hover in dark mode as well */
+        }
+    }
+  }
+
+  /* Responsive breakpoints - Kept as they are, adjust if needed */
+  @media screen and (max-width: 1024px) {
+    .home-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 15px;
+        margin: 1.5rem; /* Slightly reduced margin for tablet */
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .home-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 12px;
+        margin: 1rem; /* Further reduced margin for smaller tablet */
+    }
+
+    .home-container-link {
+        height: 130px;
+    }
+
+    .home-container-link h2 {
+        font-size: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .home-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
+        margin: 0.8rem; /* Smallest margin for mobile */
+    }
+
+    .home-container-link {
+        height: 120px;
+    }
+
+    .home-container-link h2 {
+        font-size: 0.9rem;
+    }
+  }
+
+  /* Fix for very small screens */
+  @media screen and (max-width: 320px) {
+    .home-container-link {
+        height: 100px;
+    }
+
+    .home-container-link h2 {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+  }

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microscopic Semen Analysis</title>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --text-color: #1f2937;
+      --border-color: #e5e7eb;
+      --bg-color: #f9fafb;
+      --card-bg: #ffffff;
+    }
+
+        /* --- Custom Scrollbar Styling (Webkit Browsers) --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background-color: var(--border);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background-color: #adb5bd;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        ::-webkit-scrollbar-thumb:active {
+            background-color: #6c757d;
+        }
+        
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      padding: 1rem;
+    }
+
+    .container {
+      margin: 0 auto;
+      padding: 1.5rem;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+    }
+
+    .settings {
+      background: #f8fafc;
+      padding: 1.25rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .settings h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .settings label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .settings input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .settings input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .update-btn {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .update-btn:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    th, td {
+      padding: 0.75rem;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    input[type='number'] {
+      width: 100%;
+      border: none;
+      text-align: center;
+      background: transparent;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+
+    input[type='number']:focus {
+      outline: none;
+      background: #f8fafc;
+      border-radius: 4px;
+    }
+
+    .generate-btn {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .generate-btn:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      color: var(--text-color);
+      font-style: italic;
+    }
+
+    .spinner {
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 3px solid rgba(0, 0, 0, 0.1);
+      border-top-color: var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error {
+      color: #dc2626;
+      font-style: italic;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+    }
+
+    .comment-section {
+      margin-top: 2rem;
+    }
+
+    .comment-section p {
+      margin: 1rem 0;
+    }
+
+    .comment-section strong {
+      color: var(--text-color);
+      font-weight: 600;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 1rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .settings h3 {
+        font-size: 1.125rem;
+      }
+
+      th, td {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+      }
+
+      input[type='number'] {
+        font-size: 0.875rem;
+      }
+
+      .generate-btn {
+        padding: 0.65rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Microscopic Semen Analysis</h2>
+    <div class="settings">
+      <h3>API Configuration</h3>
+      <label for="api-key">Gemini API Key</label>
+      <input type="text" id="api-key" placeholder="Enter your Gemini API key if available or keep it blank" />
+      <button class="update-btn" id="update-api-btn">Update API Key</button>
+    </div>
+    <div class="table-container">
+      <table class="result-table">
+        <tr>
+          <th width="30%">Parameter</th>
+          <th width="20%">Result</th>
+          <th width="30%">Reference Range</th>
+          <th width="20%">Interpretation</th>
+        </tr>
+        <tr><td>Total Sperm Concentration</td><td><input type="number" id="tsc" min="0" /></td><td>≥15 million/mL</td><td id="i_tsc"></td></tr>
+        <tr><td>Progressive Motility</td><td><input type="number" id="motility" min="0" max="100" /></td><td>≥32%</td><td id="i_motility"></td></tr>
+        <tr><td>Normal Morphology</td><td><input type="number" id="morphology" min="0" max="100" /></td><td>≥4%</td><td id="i_morphology"></td></tr>
+        <tr><td>Vitality</td><td><input type="number" id="vitality" min="0" max="100" /></td><td>≥58%</td><td id="i_vitality"></td></tr>
+        <tr><td>Motile Sperm Concentration</td><td id="r_msc"></td><td>≥4.8 million/mL</td><td id="i_msc"></td></tr>
+        <tr><td>Total Functional Sperm Concentration</td><td id="r_tfsc"></td><td>>2.0 million/mL</td><td id="i_tfsc"></td></tr>
+        <tr><td>Pus Cells</td><td><input type="number" id="pus" min="0" /></td><td><5 /HPF</td><td id="i_pus"></td></tr>
+        <tr><td>RBC</td><td><input type="number" id="rbc" min="0" /></td><td><2 /HPF</td><td id="i_rbc"></td></tr>
+      </table>
+    </div>
+    <button class="generate-btn" id="generate-btn">Generate Report</button>
+    <div id="loading" class="loading hidden">
+      <div class="spinner"></div>
+      <span>Generating AI response...</span>
+    </div>
+    <div class="comment-section" id="comment-section"
+      <p><strong>Comment:</strong> <span id="comment"></span></p>
+      <p><strong>Advice:</strong> <span id="advice"></span></p>
+      <p class="error" id="error" style="display: none;"></p>
+    </div>
+  </div>
+
+  <script>
+    const inputs = document.querySelectorAll("input:not(#api-key)");
+    const apiKeyInput = document.getElementById("api-key");
+    const updateApiBtn = document.getElementById("update-api-btn");
+    const generateBtn = document.getElementById("generate-btn");
+    let apiKey = "AIzaSyDQILb_mlsos68Z-PIYXCBCViP_gVE-T_0"; // Default API key
+
+    // Load saved API key if available
+    const savedKey = localStorage.getItem("gemini_api_key");
+    if (savedKey) {
+      apiKey = savedKey;
+      apiKeyInput.value = savedKey;
+    }
+
+    // Update API key on button click
+    updateApiBtn.addEventListener("click", () => {
+      const newKey = apiKeyInput.value.trim();
+      if (newKey) {
+        apiKey = newKey;
+        localStorage.setItem("gemini_api_key", newKey);
+        alert("API key updated successfully!");
+      } else {
+        alert("Please enter a valid API key.");
+      }
+    });
+
+    function calculateResults() {
+      const tsc = parseFloat(document.getElementById("tsc").value) || 0;
+      const motility = parseFloat(document.getElementById("motility").value) || 0;
+      const morphology = parseFloat(document.getElementById("morphology").value) || 0;
+      const vitality = parseFloat(document.getElementById("vitality").value) || 0;
+      const pus = parseFloat(document.getElementById("pus").value) || 0;
+      const rbc = parseFloat(document.getElementById("rbc").value) || 0;
+
+      const msc = +(tsc * motility / 100).toFixed(2);
+      const tfsc = +(msc * morphology / 100).toFixed(2);
+
+      document.getElementById("r_msc").textContent = msc;
+      document.getElementById("r_tfsc").textContent = tfsc;
+
+      document.getElementById("i_tsc").textContent = tsc >= 15 ? "Normal" : (tsc === 0 ? "Azoospermia" : "Low (Oligozoospermia)");
+      document.getElementById("i_motility").textContent = motility >= 32 ? "Normal" : "Reduced (Asthenozoospermia)";
+      document.getElementById("i_morphology").textContent = morphology >= 4 ? "Normal" : "Abnormal (Teratozoospermia)";
+      document.getElementById("i_vitality").textContent = vitality >= 58 ? "Normal" : "Reduced vitality";
+      document.getElementById("i_msc").textContent = msc >= 4.8 ? "Normal" : "Low MSC";
+      document.getElementById("i_tfsc").textContent = tfsc > 2.0 ? "Normal" : "Low TFSC";
+      document.getElementById("i_pus").textContent = pus < 5 ? "Normal" : "Pyozoospermia (Infection)";
+      document.getElementById("i_rbc").textContent = rbc < 2 ? "Normal" : "Hematospermia";
+    }
+
+    async function generateReport() {
+      calculateResults();
+
+      if (!apiKey) {
+        document.getElementById("error").textContent = "Please enter and update a valid Gemini API key in the settings.";
+        document.getElementById("error").style.display = "block";
+        document.getElementById("comment").textContent = "";
+        document.getElementById("advice").textContent = "";
+        return;
+      }
+
+      const tsc = parseFloat(document.getElementById("tsc").value) || 0;
+      const motility = parseFloat(document.getElementById("motility").value) || 0;
+      const morphology = parseFloat(document.getElementById("morphology").value) || 0;
+      const vitality = parseFloat(document.getElementById("vitality").value) || 0;
+      const pus = parseFloat(document.getElementById("pus").value) || 0;
+      const rbc = parseFloat(document.getElementById("rbc").value) || 0;
+      const msc = parseFloat(document.getElementById("r_msc").textContent) || 0;
+      const tfsc = parseFloat(document.getElementById("r_tfsc").textContent) || 0;
+
+      const prompt = `
+Semen Analysis Results:
+- Total Sperm Concentration: ${tsc} million/mL (Interpretation: ${document.getElementById("i_tsc").textContent})
+- Progressive Motility: ${motility}% (Interpretation: ${document.getElementById("i_motility").textContent})
+- Normal Morphology: ${morphology}% (Interpretation: ${document.getElementById("i_morphology").textContent})
+- Vitality: ${vitality}% (Interpretation: ${document.getElementById("i_vitality").textContent})
+- Motile Sperm Concentration: ${msc} million/mL (Interpretation: ${document.getElementById("i_msc").textContent})
+- Total Functional Sperm Concentration: ${tfsc} million/mL (Interpretation: ${document.getElementById("i_tfsc").textContent})
+- Pus Cells: ${pus} /HPF (Interpretation: ${document.getElementById("i_pus").textContent})
+- RBC: ${rbc} /HPF (Interpretation: ${document.getElementById("i_rbc").textContent})
+
+Task: Generate a specific comment containing ONLY the specific semen analysis terms (e.g., Normozoospermia, Oligozoospermia, Asthenozoospermia, Teratozoospermia, Pyozoospermia, Hematospermia, Necrozoospermia) based on the results. If multiple conditions apply, combine them with proper semen analysis comment combination (e.g., 'Oligoasthenozoospermia', 'Oligoasthenopyozoospermia', 'Oligoasthenoteratozoospermia', 'Asthenozoohemospermia', 'Oligoasthenopyozoospermia with Hematospermia', '0 vitality make the only comment Necrozoospermia')  . Do NOT include any additional explanations, sentences, or descriptions in the comment. Provide practical and medically professional advice for the male based on the findings. The advice must include a concise summary of the semen analysis results and recommendations for medical consultations, further diagnostic tests, or lifestyle modifications as appropriate. The advice must be formatted as a bulleted list (using markdown syntax, e.g., - Item) for clarity and readability. Return the response as a JSON object with 'comment' and 'advice' fields.
+`;
+
+      // Reset UI
+      document.getElementById("comment").textContent = "";
+      document.getElementById("advice").textContent = "";
+      document.getElementById("error").style.display = "none";
+      document.getElementById("loading").classList.remove("hidden");
+
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              temperature: 2,
+              maxOutputTokens: 512
+            }
+          })
+        });
+
+        if (!response.ok) {
+          let errorDetails = `API Error! Status: ${response.status}`;
+          try {
+            const errorJson = await response.json();
+            if (errorJson.error && errorJson.error.message) {
+              errorDetails += `\nMessage: ${errorJson.error.message}`;
+            }
+          } catch (e) {
+            const textResponse = await response.text();
+            errorDetails += `\nResponse: ${textResponse}`;
+          }
+          throw new Error(errorDetails);
+        }
+
+        const data = await response.json();
+        let resultText = "Error: Could not extract text from response.";
+
+        if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
+          resultText = data.candidates[0].content.parts[0].text;
+        } else if (data.promptFeedback) {
+          throw new Error(`Request blocked: ${data.promptFeedback.blockReason || "Unknown reason"}`);
+        }
+
+        const jsonMatch = resultText.match(/```json\s*([\s\S]*?)\s*```/);
+        if (!jsonMatch) {
+          throw new Error("No JSON content found in API response: " + resultText);
+        }
+
+        const jsonContent = jsonMatch[1].trim();
+        let result;
+        try {
+          result = JSON.parse(jsonContent);
+        } catch (e) {
+          throw new Error("Invalid JSON content after cleaning: " + jsonContent);
+        }
+
+        document.getElementById("comment").textContent = result.comment || "No comment provided.";
+        document.getElementById("advice").textContent = result.advice || "No advice provided.";
+      } catch (error) {
+        console.error("Gemini API error:", error);
+        document.getElementById("error").textContent = `Failed to generate AI comment/advice: ${error.message}.`;
+        document.getElementById("error").style.display = "block";
+      } finally {
+        document.getElementById("loading").classList.add("hidden");
+      }
+    }
+
+    // Calculate results on input change
+    inputs.forEach(input => input.addEventListener("input", calculateResults));
+
+    // Generate button click event
+    generateBtn.addEventListener("click", generateReport);
+  </script>
+</body>
+</html>

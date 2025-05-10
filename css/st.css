@@ -1,0 +1,386 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+/* CSS Variables (Custom Properties) - Defined in :root for global scope */
+:root {
+    /* --- Updated Color Palette for Darker Theme --- */
+    --primary-color: hsl(210, 100%, 60%);        /*  Bright, clean blue - keeping as accent */
+    --secondary-color: hsl(220, 20%, 60%);       /*  Medium gray for borders/subtle accents - adjusted for dark bg */
+    --background-color: hsl(0, 0%, 86%);         /*  Very Dark Gray - "Mat Black" look */
+    --input-background: hsl(0, 0.00%, 88.60%);         /*  Darker input background for dark theme */
+    --sidebar-bg-1: hsl(0, 0%, 86%);             /*  Keeping Sidebar Dark - as requested */
+    --sidebar-bg-2: hsl(0, 0%, 20%);             /*  Keeping Sidebar Dark - as requested */
+    --text-color: hsl(0, 0%, 14%);                /*  Light Text for Dark Background */
+    --border-radius: 10px;                         /*  Border Radius - matching home.css */
+    --transition-speed: 0.3s;
+    --sidebar-width: 220px;
+    --sidebar-collapsed-width: 50px;
+}
+
+/* ------------------------------------- */
+/*              General Styles           */
+/* ------------------------------------- */
+
+html {
+    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Enable flexbox for sidebar and main layout */
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: background-color var(--transition-speed); /* Transition for background color changes */
+}
+
+        /* --- Custom Scrollbar Styling (Webkit Browsers) --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background-color: var(--border);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background-color: #adb5bd;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+        
+        ::-webkit-scrollbar-thumb:active {
+            background-color: #6c757d;
+        }
+        
+
+/* ------------------------------------- */
+/*               Header Styles           */
+/* ------------------------------------- */
+header {
+    display: flex;
+    justify-content: space-between; /* Space items evenly */
+    align-items: center; /* Vertically align items in the center */
+    padding: 15px;
+    height: 35px; /* Fixed header height */
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: 1.5px; /* Spacing between letters in the header title */
+}
+
+header a {
+    text-decoration: none; /* Remove underlines from header links */
+    font-weight: bold;
+    color: var(--text-color);
+    transition: color var(--transition-speed); /* Smooth color transition on hover */
+}
+
+/* Logo Styles */
+.logo img,
+.black-logo img,
+.whitelogo img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Remove extra space below image */
+    border-radius: var(--border-radius);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hover animation */
+}
+
+.logo img:hover,
+.black-logo img:hover,
+.whitelogo img:hover,
+.sidebar-title:hover { /* Apply same hover to sidebar title for consistency */
+    transform: scale(1.1); /* Scale up on hover */
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.logo img {
+    width: 30px; /* Default logo size */
+}
+
+.thyrocare-logo img {
+    width: 120px; /* Specific logo size */
+}
+
+/* Black Logo Variation */
+.black-logo {
+    margin: 0;
+    padding: 0;
+    display: inline-block; /* Display logo and text in line */
+    text-align: center;
+    line-height: 1; /* Adjust line height for vertical alignment */
+}
+
+.black-logo img {
+    width: 30px; /* Black logo size */
+}
+
+/* White Logo Variation */
+.whitelogo img {
+    display: inline-block;
+    margin: 3px;
+    width: 25px; /* White logo size */
+}
+
+
+/* CAP Logo (positioned in header - needs context in HTML to confirm placement) */
+.cap {
+    position: absolute; /* Positioned relative to the nearest positioned ancestor */
+    margin-left: 11em; /* Adjust margin for placement */
+    z-index: 1000; /* Ensure it's above other header content */
+}
+
+.cap img {
+    width: 70px; /* CAP logo size */
+}
+
+
+/* ------------------------------------- */
+/*               Sidebar Styles          */
+/* ------------------------------------- */
+.sidebar {
+    width: var(--sidebar-width); /* Initial sidebar width from CSS variable */
+    height: 100%;
+    background: linear-gradient(to top left, var(--sidebar-bg-1), var(--sidebar-bg-2)); /* Gradient background */
+    overflow-x: hidden; /* Hide horizontal overflow */
+    z-index: 1000; /* High z-index to be above other content */
+    position: fixed; /* Fixed position sidebar */
+    padding: 0;
+    transition: width var(--transition-speed) ease; /* Smooth width transition */
+}
+
+/* Collapsed Sidebar State */
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width); /* Collapsed sidebar width from CSS variable */
+}
+
+.no-transition {
+    transition: none !important; /* Class to disable transitions temporarily */
+}
+
+/* Sidebar Header Styles */
+.sidebar-header {
+    display: flex;
+    justify-content: flex-start; /* Align items to the start of the header */
+    padding: 25px 5px;
+}
+
+/* Sidebar Title Styles */
+.sidebar-title {
+    font-size: 0.875rem;
+    margin-top: 5px;
+    margin-left: 15px;
+    font-weight: bold;
+    box-sizing: content-box; /* Include padding and border in element's total width and height */
+    color: #f0f2f5; /* Light text color for sidebar title */
+    letter-spacing: 7px;
+    border-radius: var(--border-radius);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hover animation - same as logos for consistency */
+}
+
+
+/* Sidebar Toggle Button Styles */
+.toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-weight: 300;
+    transition: background-color var(--transition-speed), transform var(--transition-speed); /* Button hover animation */
+}
+
+.toggle-btn:hover {
+    transform: scale(1.3); /* Scale up on hover */
+}
+
+.toggle-btn:active {
+    transform: translateY(0); /* No vertical movement on active state */
+}
+
+/* Sidebar Navigation Styles */
+nav ul {
+    list-style-type: none; /* Remove default list bullets */
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    padding: 0.2rem 0; /* Vertical spacing between list items */
+}
+
+/* Sidebar Link Styles */
+.sidebar nav ul li a {
+    display: flex;
+    color: rgb(241, 240, 229); /* Light text color for sidebar links */
+    font-size: 0.875rem;
+    text-decoration: none; /* Remove underlines from links */
+    padding: 5px 10px;
+    width: 150px; /* Fixed width for sidebar links */
+    border-radius: 8px;
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease; /* Link hover animation */
+}
+
+.sidebar nav ul li a i {
+    min-width: 60px; /* Ensure icons have consistent spacing */
+}
+
+nav ul li a:hover {
+    background-color: rgba(44, 62, 80, 0.8); /* Darker background on hover */
+    transform: scale(1.05); /* Scale up slightly on hover */
+    opacity: 1;
+}
+
+nav ul li a span {
+    margin-left: 1rem; /* Spacing between icon and text in sidebar links */
+}
+
+/* Active Sidebar Link Style */
+nav ul li.active a {
+    background-color: #07386c6c; /* Highlight color for active link */
+    color: white;
+    transition: background-color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+
+nav ul li.active a:active {
+    background-color: #0056b3; /* Darker shade when active/clicked */
+    color: white;
+    transform: scale(0.95); /* Scale down slightly on click */
+}
+
+/* Submenu Styles */
+.submenu {
+    max-height: 0; /* Initially hidden */
+    margin-left: 15px; /* Indent submenu items */
+    overflow: hidden; /* Hide overflowing content during animation */
+    transition: max-height 0.3s ease; /* Smooth max-height transition for submenu animation */
+}
+
+.submenu.open {
+    max-height: 200px; /* Example max-height when submenu is open - adjust as needed */
+}
+
+.submenu li {
+    padding-left: 3rem; /* Further indent submenu list items */
+    position: relative; /* For potential absolute positioning within submenu items */
+}
+
+/* Submenu Icon Styles */
+.submenu-icon {
+    margin-left: auto; /* Push icon to the right end of the link */
+    width: 15px;
+    transition: transform 0.3s ease; /* Icon rotation animation */
+}
+
+.has-submenu.open > a > .submenu-icon {
+    transform: rotate(180deg); /* Rotate icon when submenu is open */
+}
+
+/* Hide elements when sidebar is collapsed */
+.sidebar.collapsed .sidebar-title,
+.sidebar.collapsed li a span,
+.sidebar.collapsed .submenu-icon {
+    display: none; /* Hide text and submenu icons in collapsed state */
+}
+
+/* ------------------------------------- */
+/*            Main Content Styles        */
+/* ------------------------------------- */
+main {
+    flex-grow: 1; /* Allow main to grow and take available space */
+    margin-left: var(--sidebar-width); /* Initial margin to accommodate sidebar */
+    padding: 0;
+    transition: margin-left var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease-in-out; /* Smooth margin transition */
+    opacity: 0; /* Initially hidden for fade-in effect */
+    transition: all 0.3s ease; /* General transitions for main content */
+}
+
+/* Adjust main margin when sidebar is collapsed */
+.sidebar.collapsed + main {
+    margin-left: var(--sidebar-collapsed-width);
+}
+
+
+/* ------------------------------------- */
+/*               Footer Styles           */
+/* ------------------------------------- */
+footer {
+    margin-top: 50px; /* Spacing above the footer */
+    width: 100%;
+    padding: 40px;
+    text-align: center; /* Center align footer text */
+    color: rgb(68, 67, 67); /* Gray footer text color */
+}
+
+/* ------------------------------------- */
+/*               Animations            */
+/* ------------------------------------- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+
+/* ------------------------------------- */
+/*           Responsive Design          */
+/* ------------------------------------- */
+/* Media query for screens up to 768px width (typical tablets) */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed; /* Keep sidebar fixed on smaller screens */
+        z-index: 1; /* Ensure sidebar is above other content */
+        height: 100%;
+    }
+    .sidebar.collapsed {
+        width: 10%; /* Even narrower collapsed sidebar on small screens */
+    }
+    main {
+        margin-left: var(--sidebar-collapsed-width); /* Adjust main margin for collapsed sidebar */
+    }
+
+    header h1 {
+        font-size: 1rem; /* Smaller header font size on smaller screens */
+    }
+    header p {
+        font-size: 0.75rem; /* Smaller header paragraph font size */
+    }
+    .hover-message {
+        margin-left: 150px; /* Adjust hover message position if needed */
+    }
+}
+
+/* Media query for screens up to 600px width (typical mobile phones) */
+@media (max-width: 600px) {
+    .thyrocare-logo img {
+        width: 100px; /* Smaller logo size on mobile */
+    }
+    .cap img {
+        width: 50px; /* Smaller CAP logo on mobile */
+    }
+    .whitelogo img, .black-logo img {
+        width: 25px; /* Even smaller logo sizes */
+    }
+    .cap {
+        margin-left: 7em; /* Adjust CAP logo margin on mobile */
+    }
+    .sidebar-title{
+        display: none; /* Hide sidebar title on very small screens */
+    }
+}

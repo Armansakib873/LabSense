@@ -1,0 +1,324 @@
+
+/* css/dilution.css - Styles specific to the Dilution Calculator Page - Dark Theme */
+/* ========================================================= */
+
+/* ------------------------------------- */
+/*       Calculator Container          */
+/* ------------------------------------- */
+.calculator-container {
+    max-width: 800px;
+    margin: 30px auto; /* Adjusted margin for better top spacing */
+    background-color: var(--input-background); /* Use input background variable */
+    padding: 30px; /* Adjusted padding for consistency */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-medium); /* Use medium shadow variable */
+    color: var(--text-color); /* Use text color variable */
+    font-size: 1rem; /* Set base font size */
+}
+
+/* ------------------------------------- */
+/*              Header Styles           */
+/* ------------------------------------- */
+.header-dil {
+    font-size: 1rem; /* Adjusted header font size */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Increased gap for icon spacing */
+    margin-bottom: 20px; /* Increased margin below header */
+    padding-bottom: 15px; /* Increased padding below header */
+    border-bottom: 1px solid var(--secondary-color); /* Use secondary color for border */
+    color: var(--text-color); /* Use text color variable for header text */
+}
+
+.header-dil svg {
+    fill: var(--primary-color); /* Use primary color for the SVG icon fill */
+    stroke: var(--primary-color); /* Use primary color for the SVG icon stroke */
+    width: 28px; /* Slightly larger icon size */
+    height: 28px;
+}
+
+.header-dil h1 {
+    color: var(--text-color); /* Use text color variable for header h1 */
+    font-size: 2rem; /* Adjusted header h1 font size */
+    font-weight: bold; /* Make header h1 bold */
+}
+
+/* ------------------------------------- */
+/*           Input Sections            */
+/* ------------------------------------- */
+.dil-input-section,
+.volume-input-section {
+    margin-bottom: 25px; /* Increased margin below input sections */
+}
+
+.dil-input-section label,
+.volume-input-section label {
+    display: block;
+    font-size: 1.1rem; /* Slightly larger label font size */
+    font-weight: 600; /* Bolder labels */
+    color: var(--text-color); /* Use text color variable for labels */
+    margin-bottom: 10px; /* Increased margin below labels */
+}
+
+/* ------------------------------------- */
+/*        Dilution Buttons Grid        */
+/* ------------------------------------- */
+.dilution-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); /* Adjusted minmax for button width */
+    gap: 10px; /* Adjusted gap between buttons */
+    margin-bottom: 15px; /* Increased margin below button grid */
+}
+
+.dilution-button {
+    padding: 12px 15px; /* Adjusted padding for buttons */
+    border: 1px solid var(--secondary-color); /* Use secondary color for button border */
+    border-radius: var(--border-radius);
+    background-color: var(--background-color); /* Use background color variable for button background */
+    color: var(--text-color); /* Use text color variable for button text */
+    cursor: pointer;
+    transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed); /* Added color and border-color to transition */
+    font-size: 1rem; /* Adjusted button font size */
+    font-weight: 500; /* Slightly bolder button text */
+    text-align: center; /* Center button text */
+}
+
+.dilution-button:hover {
+    background-color: hsla(var(--primary-color-h), var(--primary-color-s), var(--primary-color-l), 0.2); /* Lighter shade of primary color for hover background */
+    border-color: var(--primary-color); /* Change border color to primary on hover */
+    color: var(--primary-color); /* Change text color to primary on hover */
+}
+
+.dilution-button.active {
+    background-color: var(--primary-color); /* Use primary color for active button background */
+    color: var(--input-background); /* Use input background color for active button text - for contrast on primary blue */
+    border-color: var(--primary-color); /* Use primary color for active button border */
+    font-weight: 600; /* Bolder text for active button */
+}
+
+/* ------------------------------------- */
+/*            Input Fields              */
+/* ------------------------------------- */
+input[type="number"] {
+    width: 100%; /* Make input fields full width */
+    padding: 12px 15px; /* Adjusted padding for input fields */
+    border: 2px solid var(--secondary-color); /* Use secondary color for input border */
+    border-radius: var(--border-radius);
+    font-size: 1.1rem; /* Slightly larger input font size */
+    background-color: var(--background-color); /* Use background color variable for input background */
+    color: var(--text-color); /* Use text color variable for input text */
+    margin-bottom: 20px; /* Increased margin below input fields */
+    box-sizing: border-box; /* Ensure padding is included in width calculation */
+    height: 50px; /* Fixed height for input fields for consistency */
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color); /* Use primary color for focused input border */
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.3); /* Use rgba for primary color for focus shadow */
+}
+
+/* ------------------------------------- */
+/*           Results Section           */
+/* ------------------------------------- */
+.results-section {
+    background-color: var(--background-color); /* Use background color variable for results section background */
+    padding: 25px; /* Adjusted padding for results section */
+    border-radius: var(--border-radius);
+    margin-bottom: 30px; /* Increased margin below results section */
+    border: 1px solid var(--secondary-color); /* Add border to results section */
+}
+
+.results-section h2 {
+    color: var(--text-color); /* Use text color variable for results section heading */
+    margin-bottom: 20px; /* Increased margin below results heading */
+    font-size: 1.75rem; /* Adjusted results section heading size */
+    font-weight: 600; /* Bolder results section heading */
+    text-align: center; /* Center align results heading */
+}
+
+.result-card {
+    background-color: var(--input-background); /* Use input background variable for result card background */
+    padding: 20px; /* Adjusted padding for result cards */
+    border-radius: var(--border-radius);
+    margin-bottom: 15px; /* Increased margin below result cards */
+    box-shadow: var(--box-shadow-subtle); /* Use subtle shadow variable for result cards */
+    border: 1px solid var(--secondary-color); /* Add border to result cards */
+}
+
+.result-card .label {
+    font-size: 1rem; /* Adjusted result card label font size */
+    color: var(--secondary-color); /* Use secondary color variable for result card labels */
+    margin-bottom: 8px; /* Increased margin below result card labels */
+    font-weight: 500; /* Slightly bolder result card labels */
+}
+
+.result-card .value {
+    font-size: 2rem; /* Adjusted result card value font size */
+    font-weight: 700; /* Bolder result card values */
+    color: var(--primary-color); /* Use primary color variable for result card values */
+    letter-spacing: 0.5px; /* Slight letter spacing for result card values */
+    text-align: center; /* Center align result card values */
+}
+
+/* ------------------------------------- */
+/*            Notes Section              */
+/* ------------------------------------- */
+.notes-section {
+    background-color: var(--background-color); /* Use background color variable for notes section background */
+    padding: 20px; /* Adjusted padding for notes section */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--secondary-color); /* Add border to notes section */
+    color: var(--secondary-color); /* Use secondary color variable for notes section text */
+}
+
+.notes-section h3 {
+    color: var(--text-color); /* Use text color variable for notes section heading */
+    margin-bottom: 10px; /* Increased margin below notes section heading */
+    font-size: 1.2rem; /* Slightly larger notes section heading size */
+    font-weight: 600; /* Bolder notes section heading */
+}
+
+.notes-section ul {
+    list-style-position: inside;
+    font-size: 1rem; /* Adjusted notes section list font size */
+    padding-left: 20px; /* Add padding to the left of the list for better readability */
+}
+
+.notes-section li {
+    margin-bottom: 8px; /* Increased margin between notes list items */
+    line-height: 1.6; /* Improved line height for notes list items */
+}
+
+.notes-section li strong {
+    color: var(--text-color); /* Use text color variable for strong text in notes section */
+}
+
+
+/* ------------------------------------- */
+/*           Responsive Design          */
+/* ------------------------------------- */
+@media (max-width: 768px) {
+    .calculator-container {
+        padding: 20px; /* Adjusted container padding for tablets */
+        margin-top: 20px; /* Adjusted top margin for tablets */
+    }
+    .header-dil {
+        font-size: 0.9rem; /* Adjusted header font size for tablets */
+        margin-bottom: 15px; /* Adjusted header margin for tablets */
+        padding-bottom: 10px; /* Adjusted header padding for tablets */
+    }
+    .header-dil h1 {
+        font-size: 1.8rem; /* Smaller header h1 font size for tablets */
+    }
+    .dil-input-section label,
+    .volume-input-section label {
+        font-size: 1rem; /* Adjusted label font size for tablets */
+        margin-bottom: 8px; /* Adjusted label margin for tablets */
+    }
+    .dilution-grid {
+        margin-bottom: 10px; /* Adjusted dilution grid margin for tablets */
+        gap: 8px; /* Adjusted dilution grid gap for tablets */
+    }
+    .dilution-button {
+        font-size: 0.9rem; /* Adjusted dilution button font size for tablets */
+        padding: 10px 12px; /* Adjusted dilution button padding for tablets */
+    }
+    input[type="number"] {
+        font-size: 1rem; /* Adjusted input font size for tablets */
+        margin-bottom: 15px; /* Adjusted input margin for tablets */
+        padding: 10px 12px; /* Adjusted input padding for tablets */
+        height: 45px; /* Slightly reduced input height for tablets */
+    }
+    .results-section {
+        padding: 20px; /* Adjusted results section padding for tablets */
+        margin-bottom: 20px; /* Adjusted results section margin for tablets */
+    }
+    .results-section h2 {
+        font-size: 1.6rem; /* Smaller results section heading for tablets */
+        margin-bottom: 15px; /* Adjusted results section heading margin for tablets */
+    }
+    .result-card {
+        padding: 15px; /* Adjusted result card padding for tablets */
+        margin-bottom: 10px; /* Adjusted result card margin for tablets */
+    }
+    .result-card .label {
+        font-size: 0.9rem; /* Adjusted result card label font size for tablets */
+        margin-bottom: 6px; /* Adjusted result card label margin for tablets */
+    }
+    .result-card .value {
+        font-size: 1.8rem; /* Adjusted result card value font size for tablets */
+    }
+    .notes-section {
+        padding: 15px; /* Adjusted notes section padding for tablets */
+    }
+    .notes-section h3 {
+        font-size: 1.1rem; /* Adjusted notes section heading font size for tablets */
+        margin-bottom: 6px; /* Adjusted notes section heading margin for tablets */
+    }
+    .notes-section ul, .notes-section li {
+        font-size: 0.9rem; /* Adjusted notes section list font size for tablets */
+    }
+}
+
+@media (max-width: 600px) {
+    .calculator-container {
+        padding: 15px; /* Adjusted container padding for mobile */
+        margin-top: 15px; /* Adjusted top margin for mobile */
+    }
+    .header-dil {
+        font-size: 0.8rem; /* Adjusted header font size for mobile */
+        gap: 8px; /* Adjusted header gap for mobile */
+        margin-bottom: 10px; /* Adjusted header margin for mobile */
+        padding-bottom: 8px; /* Adjusted header padding for mobile */
+    }
+    .header-dil h1 {
+        font-size: 1.5rem; /* Even smaller header h1 font size for mobile */
+    }
+    .dil-input-section label,
+    .volume-input-section label {
+        font-size: 0.9rem; /* Adjusted label font size for mobile */
+        margin-bottom: 6px; /* Adjusted label margin for mobile */
+    }
+    .dilution-grid {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); /* Smaller minmax for buttons on mobile */
+        gap: 6px; /* Adjusted dilution grid gap for mobile */
+        margin-bottom: 10px; /* Adjusted dilution grid margin for mobile */
+    }
+    .dilution-button {
+        font-size: 0.8rem; /* Adjusted dilution button font size for mobile */
+        padding: 8px 10px; /* Adjusted dilution button padding for mobile */
+    }
+    input[type="number"] {
+        font-size: 0.9rem; /* Adjusted input font size for mobile */
+        margin-bottom: 12px; /* Adjusted input margin for mobile */
+        padding: 8px 10px; /* Adjusted input padding for mobile */
+        height: 40px; /* Even smaller input height for mobile */
+    }
+    .results-section {
+        padding: 15px; /* Adjusted results section padding for mobile */
+        margin-bottom: 15px; /* Adjusted results section margin for mobile */
+    }
+    .results-section h2 {
+        font-size: 1.4rem; /* Even smaller results section heading for mobile */
+        margin-bottom: 10px; /* Adjusted results section heading margin for mobile */
+    }
+    .result-card {
+        padding: 12px; /* Adjusted result card padding for mobile */
+        margin-bottom: 8px; /* Adjusted result card margin for mobile */
+    }
+    .result-card .value {
+        font-size: 1.6rem; /* Even smaller result card value font size for mobile */
+    }
+    .notes-section {
+        padding: 12px; /* Adjusted notes section padding for mobile */
+    }
+    .notes-section h3 {
+        font-size: 1rem; /* Even smaller notes section heading font size for mobile */
+        margin-bottom: 4px; /* Adjusted notes section heading margin for mobile */
+    }
+    .notes-section ul, .notes-section li {
+        font-size: 0.8rem; /* Even smaller notes section list font size for mobile */
+        line-height: 1.4; /* Adjusted notes section list line height for mobile */
+    }
+}

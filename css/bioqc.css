@@ -1,0 +1,416 @@
+/* css/bioqc.css - Styles specific to the Biochemistry QC Sheet Page - Dark Theme */
+/* ========================================================= */
+
+/* ------------------------------------- */
+/*           QC Container              */
+/* ------------------------------------- */
+.qc-container {
+    max-width: 1400px;
+    margin: 20px auto; /* Adjusted margin for better spacing */
+    padding: 30px 40px; /* Adjusted padding for better spacing */
+    color: var(--text-color); /* Use text color variable */
+}
+
+/* ------------------------------------- */
+/*              QC Header              */
+/* ------------------------------------- */
+.qc-header {
+    color: var(--secondary-color); /* Use secondary color for header text */
+    font-size: 1rem; /* Adjusted font size */
+    margin-bottom: 20px; /* Added margin below header */
+    text-align: center; /* Center align header content */
+}
+
+.qc-header h1 {
+    margin: 0;
+    font-size: 1.5rem; /* Adjusted heading size */
+    font-weight: 700; /* Bolder heading */
+    letter-spacing: 0.5px;
+    color: var(--text-color); /* Use text color variable for heading */
+}
+
+.qc-header p {
+    margin: 10px 0 0; /* Adjusted paragraph margin */
+    opacity: 0.8; /* Slightly reduced opacity for paragraph text */
+    font-size: 1rem; /* Adjusted paragraph font size */
+}
+
+/* ------------------------------------- */
+/*           Control Panel             */
+/* ------------------------------------- */
+.control-panel {
+    display: block;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px; /* Increased margin below control panel */
+    padding: 25px; /* Adjusted padding for control panel */
+    background-color: var(--input-background); /* Use input background variable */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-subtle); /* Use subtle shadow variable */
+}
+
+/* ------------------------------------- */
+/*           Control Info              */
+/* ------------------------------------- */
+.control-info {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr 0.5fr;
+    gap: 15px; /* Increased gap between info cards */
+    margin-bottom: 20px; /* Increased margin below info cards */
+}
+
+.info-card {
+    background-color: var(--background-color); /* Use background color variable for info cards */
+    padding: 20px; /* Adjusted padding for info cards */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-card); /* Use card shadow variable */
+    border: 1px solid var(--secondary-color); /* Add border to info cards */
+}
+
+.info-card strong {
+    font-weight: 600; /* Bolder text for strong elements in info cards */
+    color: var(--text-color); /* Use text color variable for strong text */
+}
+
+.info-card span.editable {
+    color: var(--primary-color); /* Use primary color for editable spans */
+    font-weight: 500; /* Slightly bolder editable span text */
+}
+
+/* ------------------------------------- */
+/*           Action Buttons            */
+/* ------------------------------------- */
+.action-buttons {
+    display: flex;
+    gap: 15px; /* Increased gap between action buttons */
+    justify-content: flex-end; /* Align buttons to the right */
+}
+
+.btn {
+    padding: 10px 20px; /* Adjusted padding for buttons */
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600; /* Bolder button text */
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Increased gap for icon spacing in buttons */
+    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed); /* Added box-shadow to transition */
+    font-size: 1rem; /* Adjusted button font size */
+    font-weight: 700; /* Bolder button text */
+}
+
+.btn i {
+    font-size: 1.2rem; /* Slightly larger icon size in buttons */
+}
+
+.btn-primary {
+    background-color: var(--primary-color); /* Use primary color for primary buttons */
+    color: var(--input-background); /* Use input background color for primary button text - for contrast */
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color); /* Use secondary color for secondary buttons */
+    color: var(--text-color); /* Use text color variable for secondary button text */
+}
+
+.btn-danger {
+    background-color: hsl(0, 70%, 50%); /* Darker shade of red for danger button */
+    color: var(--text-color); /* Use text color variable for danger button text */
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-subtle); /* Use subtle shadow on button hover */
+}
+
+/* ------------------------------------- */
+/*       Data Table Container          */
+/* ------------------------------------- */
+.data-table-container {
+    padding-top: 0;
+    height: auto; /* Adjusted height to auto */
+    background-color: var(--input-background); /* Use input background variable */
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow-medium); /* Use medium shadow variable */
+    font-size: 0.9rem; /* Adjusted font size for table */
+    color: var(--text-color); /* Use text color variable for table text */
+}
+
+/* ------------------------------------- */
+/*               Data Table              */
+/* ------------------------------------- */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background-color: hsla(0, 0%, 100%, 0.05); /* Very subtle light background for header */
+    color: var(--text-color); /* Use text color variable for table header text */
+    padding: 18px 15px; /* Increased padding for table header */
+    text-align: left;
+    font-weight: 600; /* Bolder table header text */
+    letter-spacing: 0.5px; /* Slight letter spacing for table header */
+    border-bottom: 2px solid var(--secondary-color); /* Thicker border below table header */
+}
+
+.data-table td {
+    padding: 12px 15px; /* Adjusted padding for table cells */
+    border-bottom: 1px solid var(--secondary-color); /* Use secondary color for cell border */
+}
+
+.data-table tbody tr:hover {
+    background-color: hsla(var(--primary-color-h), var(--primary-color-s), var(--primary-color-l), 0.08); /* Subtle hover background using primary color */
+}
+
+/* ------------------------------------- */
+/*            Result Input               */
+/* ------------------------------------- */
+.result-input {
+    padding: 8px 10px; /* Adjusted padding for result inputs */
+    border: 2px solid var(--secondary-color); /* Use secondary color for input border */
+    border-radius: var(--border-radius);
+    font-size: 1rem; /* Adjusted result input font size */
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    background-color: var(--background-color); /* Use background color variable for result input background */
+    color: var(--text-color); /* Use text color variable for result input text */
+    width: 90px; /* Adjusted width for result inputs */
+    height: 40px; /* Fixed height for result inputs for consistency */
+    box-sizing: border-box; /* Ensure padding is included in width and height calculation */
+}
+
+input[type="number"] { /* General number input styles - override width from result-input if needed elsewhere */
+    width: auto; /* Reset width to auto for general number inputs if needed */
+    height: auto; /* Reset height to auto for general number inputs if needed */
+}
+
+.result-input:focus {
+    border-color: var(--primary-color); /* Use primary color for focused input border */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.2); /* Use rgba for primary color for focus shadow */
+}
+
+/* ------------------------------------- */
+/*               Status                 */
+/* ------------------------------------- */
+.status {
+    padding: 8px 15px; /* Adjusted padding for status spans */
+    border-radius: var(--border-radius);
+    font-size: 1rem; /* Adjusted status font size */
+    font-weight: 600; /* Bolder status text */
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+    color: var(--input-background); /* Use input background color for status text - for contrast on status backgrounds */
+}
+
+.status-normal {
+    background-color: hsl(140, 60%, 40%); /* Darker shade of green for "normal" status */
+}
+
+.status-warning {
+    background-color: hsl(45, 80%, 40%); /* Darker shade of yellow/orange for "warning" status */
+}
+
+.status-critical {
+    background-color: hsl(0, 70%, 40%); /* Darker shade of red for "critical" status */
+}
+
+.status-lower {
+    background-color: hsl(30, 70%, 40%); /* Darker shade of orange for "lower" status */
+}
+
+.status-higher {
+    background-color: hsl(15, 70%, 40%); /* Darker shade of dark orange/red for "higher" status */
+}
+
+
+/* ------------------------------------- */
+/*           Edit Controls             */
+/* ------------------------------------- */
+.edit-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px; /* Increased gap between edit controls buttons */
+    padding: 20px; /* Adjusted padding for edit controls */
+    z-index: 1000;
+    background-color: var(--input-background); /* Use input background for edit controls background */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-medium); /* Use medium shadow for edit controls */
+}
+
+.btn-edit, .btn-save {
+    padding: 10px 20px; /* Adjusted padding for edit and save buttons */
+    border-radius: var(--border-radius);
+    color: var(--input-background); /* Use input background color for edit/save button text - for contrast */
+    font-weight: 600; /* Bolder edit/save button text */
+    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed); /* Added box-shadow to transition */
+}
+
+
+.btn-edit {
+    background-color: hsl(45, 80%, 50%); /* Adjusted warning color for edit button */
+}
+
+.btn-save {
+    background-color: hsl(140, 60%, 50%); /* Adjusted success color for save button */
+}
+
+.btn-edit:hover, .btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--box-shadow-subtle); /* Use subtle shadow on edit/save button hover */
+}
+
+/* Edit Mode Styles */
+.edit-mode input:not(.result-input) { /* Apply edit mode styling to non-result inputs */
+    background-color: hsla(45, 100%, 70%, 0.15); /* Very light yellow background for edit mode inputs */
+    border: 1px solid hsl(45, 80%, 50%); /* Adjusted warning color for edit mode input border */
+    padding: 6px; /* Adjusted padding for edit mode inputs */
+    border-radius: var(--border-radius);
+    color: var(--text-color); /* Ensure text color is still readable in edit mode */
+}
+
+.edit-mode .range-edit {
+    width: 70px; /* Adjusted width for range edit inputs in edit mode */
+    text-align: right;
+}
+
+/* ------------------------------------- */
+/*               Toast                   */
+/* ------------------------------------- */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color); /* Use primary color for toast background */
+    color: var(--input-background); /* Use input background color for toast text - for contrast on primary blue */
+    padding: 15px 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-medium); /* Use medium shadow for toast */
+    display: none;
+    z-index: 1000;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+
+/* ------------------------------------- */
+/*           Responsive Design          */
+/* ------------------------------------- */
+@media print {
+    body {
+        background-color: var(--color-background-light); /* Force light background for print */
+        color: #000; /* Force black text for print */
+    }
+    #sidebar, #editButton, .edit-controls, .action-buttons, header, .toast {
+        display: none !important; /* Hide sidebar, edit controls, action buttons, header and toast in print */
+    }
+
+    .qc-container {
+        max-width: 100%;
+        padding: 0; /* Remove padding for print */
+        margin-top: 0; /* Remove top margin for print */
+    }
+
+    .control-panel, .data-table-container, .notes-section, .info-card, .result-card {
+        box-shadow: none; /* Remove shadows for print */
+        border: 1px solid #ccc; /* Add border for print elements for better visibility */
+        border-radius: 0; /* Remove border-radius for print */
+        background-color: var(--color-background-light) !important; /* Force light background for print elements */
+    }
+    .data-table th {
+        background-color: #eee !important; /* Light gray header for print */
+        color: #000 !important; /* Black header text for print */
+        -webkit-print-color-adjust: exact; /* Ensure background color prints */
+        print-color-adjust: exact;
+    }
+    .data-table td {
+        border-bottom: 1px solid #ccc; /* Lighter cell border for print */
+    }
+    .info-card, .result-card, .notes-section, .control-panel {
+        padding: 15px; /* Reduced padding for print elements */
+    }
+
+}
+
+@media (max-width: 1024px) {
+    .control-info {
+        grid-template-columns: 1fr; /* Stack info cards vertically on smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .qc-container {
+        padding: 20px; /* Adjusted container padding for tablets */
+    }
+    .control-panel {
+        padding: 15px; /* Adjusted control panel padding for tablets */
+    }
+    .info-card, .results-section, .notes-section {
+        padding: 15px; /* Adjusted section padding for tablets */
+    }
+    .action-buttons {
+        flex-direction: column; /* Stack action buttons vertically on smaller tablets */
+        align-items: stretch; /* Stretch buttons to full width */
+        gap: 10px; /* Adjusted gap for stacked buttons */
+    }
+    .btn {
+        width: 100%; /* Make buttons full width on smaller tablets */
+        text-align: center; /* Center button text on smaller tablets */
+    }
+    .data-table th, .data-table td {
+        padding: 10px; /* Reduced table cell padding for tablets */
+    }
+    .edit-controls {
+        bottom: 10px; /* Adjusted edit controls position for smaller screens */
+        right: 10px;
+        gap: 10px; /* Adjusted edit controls gap for smaller screens */
+        padding: 10px; /* Adjusted edit controls padding for smaller screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .qc-container {
+        padding: 15px; /* Adjusted container padding for mobile */
+    }
+    .qc-header h1 {
+        font-size: 1.3rem; /* Smaller header h1 font size for mobile */
+    }
+    .qc-header p {
+        font-size: 0.9rem; /* Smaller header paragraph font size for mobile */
+    }
+    .control-panel {
+        padding: 15px; /* Adjusted control panel padding for mobile */
+    }
+    .info-card, .results-section, .notes-section {
+        padding: 12px; /* Even smaller section padding for mobile */
+    }
+    .data-table th, .data-table td {
+        padding: 8px; /* Even smaller table cell padding for mobile */
+        font-size: 0.8rem; /* Smaller table font size for mobile */
+    }
+    .result-card .value {
+        font-size: 1.6rem; /* Smaller result card value font size for mobile */
+    }
+    .btn {
+        font-size: 0.9rem; /* Smaller button font size for mobile */
+        padding: 8px 12px; /* Smaller button padding for mobile */
+    }
+    .edit-controls {
+        gap: 8px; /* Even smaller edit controls gap for mobile */
+    }
+}

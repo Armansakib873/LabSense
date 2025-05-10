@@ -1,0 +1,249 @@
+
+/* css/egfr.css - Styles specific to the eGFR Calculator Page - Improved Design & Alignment */
+/* ========================================================= */
+
+/* ------------------------------------- */
+/*           eGFR Container            */
+/* ------------------------------------- */
+.egfr-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+.egfr-container h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* ------------------------------------- */
+/*         Calculator Grid Layout       */
+/* ------------------------------------- */
+.calculator-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-top: 30px;
+    align-items: stretch; /* Changed to stretch to make sections equal height if needed */
+}
+
+/* ------------------------------------- */
+/*           Input Section             */
+/* ------------------------------------- */
+.input-section {
+    background-color: var(--input-background);
+    padding: 45px 40px; /* Increased top/bottom padding for more visual space */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-medium);
+    transition: transform var(--transition-speed);
+    display: flex; /* Use flexbox for input section to control form-group alignment */
+    flex-direction: column; /* Stack form groups vertically */
+}
+
+/* ------------------------------------- */
+/*           Result Section            */
+/* ------------------------------------- */
+.result-section {
+    padding: 45px 40px; /* Increased top/bottom padding to match input section */
+    background-color: var(--input-background);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-medium);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-section h2 {
+    font-size: 2rem;
+    color: var(--text-color);
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.result-value {
+    font-size: 3.5rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin: 25px 0;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.result-comment {
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-top: 25px;
+    font-size: 1.1rem;
+    line-height: 1.7;
+    background-color: hsla(var(--primary-color-h), var(--primary-color-s), var(--primary-color-l), 0.15);
+    color: var(--text-color);
+    border: 1px solid var(--secondary-color);
+    text-align: center;
+    font-weight: 500;
+}
+
+/* ------------------------------------- */
+/*             Form Elements             */
+/* ------------------------------------- */
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+    display: flex; /* Use flexbox to align label and input horizontally */
+    flex-direction: column; /* Stack label and input vertically within form-group */
+}
+
+label {
+    display: block; /* Keep label as block */
+    margin-bottom: 10px;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-align: left; /* Ensure labels are left-aligned within form-group */
+}
+
+input, select {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    height: 50px; /* Fixed height for input and select for consistency */
+    box-sizing: border-box; /* Ensure padding is included in height calculation */
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.3);
+}
+
+/* ------------------------------------- */
+/*            eGFR Button              */
+/* ------------------------------------- */
+.egfr-button {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: var(--primary-color);
+    color: var(--input-background);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform var(--transition-speed), box-shadow var(--transition-speed);
+    position: relative;
+    overflow: hidden;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.egfr-button:hover {
+    background-color: hsla(var(--primary-color-h), var(--primary-color-s), var(--primary-color-l), 0.9);
+    transform: translateY(-3px);
+    box-shadow: var(--box-shadow-subtle);
+}
+
+.egfr-button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* ------------------------------------- */
+/*           Responsive Design          */
+/* ------------------------------------- */
+@media (max-width: 1024px) {
+    .calculator-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .result-section {
+        height: auto;
+    }
+    .egfr-container {
+        padding: 25px;
+    }
+    .input-section, .result-section {
+        padding: 30px;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .egfr-container {
+        padding: 20px;
+        font-size: 0.9rem;
+    }
+    h1 {
+        font-size: 2.2rem;
+        margin-bottom: 25px;
+    }
+    .input-section, .result-section {
+        padding: 25px;
+    }
+    .result-value {
+        font-size: 3rem;
+        margin: 15px 0;
+    }
+     .result-comment {
+        padding: 15px;
+        margin-top: 15px;
+        font-size: 1rem;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        font-size: 1rem;
+        margin-bottom: 8px;
+    }
+    input, select, .egfr-button {
+        font-size: 1rem;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .egfr-container {
+        padding: 15px;
+        font-size: 0.85rem;
+    }
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    .input-section, .result-section {
+        padding: 20px;
+    }
+    .result-value {
+        font-size: 2.5rem;
+        margin: 10px 0;
+    }
+    .result-comment {
+        padding: 12px;
+        margin-top: 12px;
+        font-size: 0.9rem;
+    }
+    label {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+    input, select, .egfr-button {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+    .calculator-grid {
+        gap: 15px;
+        margin-top: 15px;
+    }
+}

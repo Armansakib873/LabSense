@@ -1,0 +1,50 @@
+
+/* Excel Styles */
+.container3, .cap-container, .excel-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 20px;
+}
+
+.content-section, .excel-item, .ex-card {
+    margin: 10px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content-section h2, .card h2 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.content-section ul {
+    padding-left: 1.5rem;
+}
+
+.ex-card {
+    width: 250px;
+    padding: 1.5rem;
+}
+
+.ex-card ul li a, .excel-container a {
+    text-decoration: none;
+    color: #1f1f1d;
+    margin: 5px;
+    transition: color 0.3s ease;
+    padding: 1px;
+    border-radius: 8px;
+}
+
+.ex-card ul li a:hover {
+    color: #35742d;
+}
+
+.excel-container a {
+    color: rgb(61, 89, 85);
+    margin: 4px;
+    display: flex;
+    justify-content: space-between;
+}

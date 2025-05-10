@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Sidebar Menu App</title>
+  <style>
+    :root {
+      --sidebar-bg: #2c3e50;
+      --sidebar-hover: #34495e;
+      --sidebar-active: #1abc9c;
+      --sidebar-width: 250px;
+      --sidebar-collapsed-width: 60px;
+      --transition-speed: 0.3s;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+      transition: all var(--transition-speed) ease;
+    }
+    
+    #sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--sidebar-bg);
+      color: white;
+      height: 100vh;
+      transition: all var(--transition-speed) ease;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    body.sidebar-collapsed #sidebar {
+      width: var(--sidebar-collapsed-width);
+    }
+    
+    #logo {
+      padding: 20px 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    #logo-icon {
+      font-size: 1.5rem;
+    }
+    
+    #logo-text {
+      transition: opacity var(--transition-speed) ease;
+    }
+    
+    body.sidebar-collapsed #logo-text {
+      opacity: 0;
+      width: 0;
+      visibility: hidden;
+    }
+    
+    #toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
+      z-index: 10;
+      transition: transform var(--transition-speed) ease;
+    }
+    
+    body.sidebar-collapsed #toggle-btn {
+      transform: rotate(180deg);
+    }
+    
+    #sidebar ul {
+      list-style: none;
+      padding: 10px 0;
+    }
+    
+    .menu-item {
+      position: relative;
+      transition: all var(--transition-speed) ease;
+    }
+    
+    .menu-item a, 
+    .menu-item span.menu-title {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin: 5px 10px;
+      transition: all var(--transition-speed) ease;
+      white-space: nowrap;
+    }
+    
+    .menu-item a:hover,
+    .menu-item span.menu-title:hover {
+      background-color: var(--sidebar-hover);
+    }
+    
+    .menu-item.active > a,
+    .menu-item.active > span.menu-title,
+    .submenu-item.active > a {
+      background-color: var(--sidebar-active);
+    }
+    
+    .menu-icon {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    
+    body.sidebar-collapsed .menu-text {
+      opacity: 0;
+      width: 0;
+      visibility: hidden;
+    }
+    
+    .submenu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height var(--transition-speed) ease;
+    }
+    
+    .submenu-item a {
+      padding-left: 47px;
+    }
+    
+    .menu-item.open .submenu {
+      max-height: 200px;
+    }
+    
+    .dropdown-icon {
+      margin-left: auto;
+      transition: transform var(--transition-speed) ease;
+    }
+    
+    .menu-item.open .dropdown-icon {
+      transform: rotate(90deg);
+    }
+    
+    body.sidebar-collapsed .dropdown-icon {
+      opacity: 0;
+      width: 0;
+      visibility: hidden;
+    }
+    
+    /* Tooltip for collapsed sidebar */
+    body.sidebar-collapsed .menu-item:hover::after {
+      content: attr(data-title);
+      position: absolute;
+      left: var(--sidebar-collapsed-width);
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--sidebar-bg);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    
+    #main {
+      flex: 1;
+      padding: 30px;
+      transition: all var(--transition-speed) ease;
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .page-title {
+      margin-bottom: 20px;
+      color: #333;
+      border-bottom: 2px solid var(--sidebar-active);
+      padding-bottom: 10px;
+      display: inline-block;
+    }
+    
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      background-color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .breadcrumb span {
+      color: #666;
+    }
+    
+    .breadcrumb-separator {
+      margin: 0 10px;
+      color: #999;
+    }
+    
+    .breadcrumb-current {
+      color: var(--sidebar-active) !important;
+      font-weight: 500;
+    }
+    
+    .content-card {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    
+    @media (max-width: 768px) {
+      #sidebar {
+        width: var(--sidebar-collapsed-width);
+        position: fixed;
+        z-index: 100;
+      }
+      
+      #main {
+        margin-left: var(--sidebar-collapsed-width);
+      }
+      
+      body.sidebar-expanded #sidebar {
+        width: var(--sidebar-width);
+      }
+      
+      body.sidebar-expanded #main {
+        margin-left: var(--sidebar-width);
+      }
+      
+      #logo-text, .menu-text, .dropdown-icon {
+        opacity: 0;
+        width: 0;
+        visibility: hidden;
+      }
+      
+      body.sidebar-expanded #logo-text,
+      body.sidebar-expanded .menu-text,
+      body.sidebar-expanded .dropdown-icon {
+        opacity: 1;
+        width: auto;
+        visibility: visible;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <div id="logo">
+      <span id="logo-icon">🚀</span>
+      <span id="logo-text">Admin Panel</span>
+      <button id="toggle-btn">◀</button>
+    </div>
+    <ul id="sidebarMenu"></ul>
+  </div>
+  
+  <div id="main">
+    <div class="breadcrumb">
+      <span class="breadcrumb-home">Home</span>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-current">Dashboard</span>
+    </div>
+    
+    <h1 class="page-title">Dashboard</h1>
+    
+    <div class="content-card">
+      <h2>Welcome to the Enhanced Dashboard</h2>
+      <p>This is an interactive web app with a dynamic sidebar menu loaded from JSON. The sidebar is now fully interactive with smooth transitions and mobile responsiveness.</p>
+      <p>Click on menu items to navigate between pages, and use the toggle button to collapse or expand the sidebar.</p>
+    </div>
+    
+    <div class="content-card">
+      <h3>Features Added:</h3>
+      <ul>
+        <li>Collapsible sidebar with smooth transitions</li>
+        <li>Interactive dropdown menus</li>
+        <li>Active state highlighting</li>
+        <li>Breadcrumb navigation</li>
+        <li>Responsive design for mobile devices</li>
+        <li>Page content transitions</li>
+        <li>Tooltips for collapsed menu items</li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    // Enhanced menu data with more options and icons
+    const menuData = [
+      {
+        "title": "Dashboard",
+        "icon": "🏠",
+        "link": "/dashboard",
+        "active": true
+      },
+      {
+        "title": "Reports",
+        "icon": "📊",
+        "submenu": [
+          { "title": "Sales Report", "link": "/reports/sales" },
+          { "title": "User Report", "link": "/reports/users" },
+          { "title": "Performance", "link": "/reports/performance" }
+        ]
+      },
+      {
+        "title": "Products",
+        "icon": "📦",
+        "submenu": [
+          { "title": "Inventory", "link": "/products/inventory" },
+          { "title": "Categories", "link": "/products/categories" },
+          { "title": "Manage", "link": "/products/manage" }
+        ]
+      },
+      {
+        "title": "Customers",
+        "icon": "👥",
+        "link": "/customers"
+      },
+      {
+        "title": "Marketing",
+        "icon": "📢",
+        "submenu": [
+          { "title": "Campaigns", "link": "/marketing/campaigns" },
+          { "title": "Email", "link": "/marketing/email" },
+          { "title": "Social Media", "link": "/marketing/social" }
+        ]
+      },
+      {
+        "title": "Settings",
+        "icon": "⚙️",
+        "submenu": [
+          { "title": "Profile", "link": "/settings/profile" },
+          { "title": "Security", "link": "/settings/security" },
+          { "title": "Notifications", "link": "/settings/notifications" }
+        ]
+      }
+    ];
+    
+    // Additional page content data for dynamic page loading
+    const pageContent = {
+      "/dashboard": {
+        title: "Dashboard",
+        breadcrumb: ["Home", "Dashboard"],
+        content: `
+          <div class="content-card">
+            <h2>Welcome to the Dashboard</h2>
+            <p>This is the main dashboard view showing an overview of your system.</p>
+          </div>
+          <div class="content-card">
+            <h3>Quick Stats</h3>
+            <p>Here you would see statistics and quick access to important information.</p>
+          </div>
+        `
+      },
+      "/reports/sales": {
+        title: "Sales Report",
+        breadcrumb: ["Home", "Reports", "Sales Report"],
+        content: `
+          <div class="content-card">
+            <h2>Sales Report</h2>
+            <p>View detailed sales analytics and reports here.</p>
+          </div>
+        `
+      },
+      "/reports/users": {
+        title: "User Report",
+        breadcrumb: ["Home", "Reports", "User Report"],
+        content: `
+          <div class="content-card">
+            <h2>User Report</h2>
+            <p>Analyze user activity and engagement metrics.</p>
+          </div>
+        `
+      },
+      "/reports/performance": {
+        title: "Performance Report",
+        breadcrumb: ["Home", "Reports", "Performance"],
+        content: `
+          <div class="content-card">
+            <h2>Performance Report</h2>
+            <p>View system performance metrics and analytics.</p>
+          </div>
+        `
+      },
+      "/customers": {
+        title: "Customers",
+        breadcrumb: ["Home", "Customers"],
+        content: `
+          <div class="content-card">
+            <h2>Customer Management</h2>
+            <p>Manage your customer database and information.</p>
+          </div>
+        `
+      },
+      "/settings/profile": {
+        title: "Profile Settings",
+        breadcrumb: ["Home", "Settings", "Profile"],
+        content: `
+          <div class="content-card">
+            <h2>Profile Settings</h2>
+            <p>Update your profile information and preferences.</p>
+          </div>
+        `
+      }
+    };
+    
+    // Function to render menu items recursively
+    function renderMenu(menuItems, parentElement) {
+      menuItems.forEach(item => {
+        const hasSubmenu = item.submenu && item.submenu.length > 0;
+        const li = document.createElement("li");
+        li.className = "menu-item";
+        if (item.active) li.classList.add("active");
+        li.setAttribute("data-title", item.title);
+        
+        if (hasSubmenu) {
+          li.innerHTML = `
+            <span class="menu-title">
+              <span class="menu-icon">${item.icon}</span>
+              <span class="menu-text">${item.title}</span>
+              <span class="dropdown-icon">▶</span>
+            </span>
+            <ul class="submenu"></ul>
+          `;
+          
+          const subUl = li.querySelector(".submenu");
+          item.submenu.forEach(sub => {
+            const subLi = document.createElement("li");
+            subLi.className = "submenu-item";
+            subLi.innerHTML = `<a href="${sub.link}" data-path="${sub.link}"><span class="menu-text">${sub.title}</span></a>`;
+            subUl.appendChild(subLi);
+          });
+        } else {
+          li.innerHTML = `
+            <a href="${item.link}" data-path="${item.link}">
+              <span class="menu-icon">${item.icon}</span>
+              <span class="menu-text">${item.title}</span>
+            </a>
+          `;
+        }
+        
+        parentElement.appendChild(li);
+      });
+    }
+    
+    // Function to handle page routing
+    function loadPage(path) {
+      const page = pageContent[path] || pageContent["/dashboard"];
+      
+      // Update breadcrumb
+      const breadcrumbEl = document.querySelector(".breadcrumb");
+      breadcrumbEl.innerHTML = "";
+      
+      page.breadcrumb.forEach((crumb, index) => {
+        const span = document.createElement("span");
+        
+        if (index === page.breadcrumb.length - 1) {
+          span.className = "breadcrumb-current";
+        } else if (index === 0) {
+          span.className = "breadcrumb-home";
+        }
+        
+        span.textContent = crumb;
+        breadcrumbEl.appendChild(span);
+        
+        // Add separator except for the last item
+        if (index < page.breadcrumb.length - 1) {
+          const separator = document.createElement("span");
+          separator.className = "breadcrumb-separator";
+          separator.textContent = "/";
+          breadcrumbEl.appendChild(separator);
+        }
+      });
+      
+      // Update page title
+      document.querySelector(".page-title").textContent = page.title;
+      
+      // Update content with animation
+      const mainContent = document.querySelector("#main");
+      mainContent.style.opacity = "0";
+      
+      setTimeout(() => {
+        // Replace content after fade out
+        const contentCards = mainContent.querySelectorAll(".content-card");
+        contentCards.forEach(card => card.remove());
+        
+        // Create new content from HTML string
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = page.content;
+        
+        // Append each child individually to maintain other elements
+        while (tempDiv.firstChild) {
+          mainContent.appendChild(tempDiv.firstChild);
+        }
+        
+        // Fade in the new content
+        mainContent.style.opacity = "1";
+        
+        // Update active state in menu
+        updateActiveMenuItem(path);
+      }, 300);
+    }
+    
+    // Function to update active menu item
+    function updateActiveMenuItem(path) {
+      // Remove active class from all items
+      document.querySelectorAll(".menu-item, .submenu-item").forEach(item => {
+        item.classList.remove("active");
+      });
+      
+      // Add active class to matching item
+      const menuItem = document.querySelector(`[data-path="${path}"]`);
+      if (menuItem) {
+        if (menuItem.closest(".submenu-item")) {
+          menuItem.closest(".submenu-item").classList.add("active");
+          
+          // Also activate parent menu item and keep submenu open
+          const parentMenuItem = menuItem.closest(".submenu").closest(".menu-item");
+          parentMenuItem.classList.add("active");
+          parentMenuItem.classList.add("open");
+        } else if (menuItem.closest(".menu-item")) {
+          menuItem.closest(".menu-item").classList.add("active");
+        }
+      }
+    }
+    
+    // Helper function to toggle submenu
+    function toggleSubmenu(menuItem) {
+      const isOpen = menuItem.classList.contains("open");
+      
+      // First close all submenus if we're on mobile
+      if (window.innerWidth <= 768 && !isOpen) {
+        document.querySelectorAll(".menu-item").forEach(item => {
+          item.classList.remove("open");
+        });
+      }
+      
+      // Toggle the clicked submenu
+      menuItem.classList.toggle("open");
+    }
+    
+    // Function to add a new menu item dynamically
+    function addMenuItem(menuItem, parentPath = null) {
+      let targetMenu = document.getElementById("sidebarMenu");
+      
+      // If parent path is provided, find the parent submenu
+      if (parentPath) {
+        const parentItem = document.querySelector(`[data-path="${parentPath}"]`);
+        if (parentItem && parentItem.closest(".menu-item").querySelector(".submenu")) {
+          targetMenu = parentItem.closest(".menu-item").querySelector(".submenu");
+        }
+      }
+      
+      // Create the new menu structure
+      const hasSubmenu = menuItem.submenu && menuItem.submenu.length > 0;
+      const li = document.createElement("li");
+      li.className = "menu-item";
+      li.setAttribute("data-title", menuItem.title);
+      
+      if (hasSubmenu) {
+        li.innerHTML = `
+          <span class="menu-title">
+            <span class="menu-icon">${menuItem.icon}</span>
+            <span class="menu-text">${menuItem.title}</span>
+            <span class="dropdown-icon">▶</span>
+          </span>
+          <ul class="submenu"></ul>
+        `;
+        
+        const subUl = li.querySelector(".submenu");
+        menuItem.submenu.forEach(sub => {
+          const subLi = document.createElement("li");
+          subLi.className = "submenu-item";
+          subLi.innerHTML = `<a href="${sub.link}" data-path="${sub.link}"><span class="menu-text">${sub.title}</span></a>`;
+          subUl.appendChild(subLi);
+        });
+      } else {
+        li.innerHTML = `
+          <a href="${menuItem.link}" data-path="${menuItem.link}">
+            <span class="menu-icon">${menuItem.icon}</span>
+            <span class="menu-text">${menuItem.title}</span>
+          </a>
+        `;
+      }
+      
+      targetMenu.appendChild(li);
+      
+      // Reattach event listeners
+      attachEventListeners();
+    }
+    
+    // Function to attach all event listeners
+    function attachEventListeners() {
+      // Toggle sidebar
+      document.getElementById("toggle-btn").addEventListener("click", function() {
+        document.body.classList.toggle("sidebar-collapsed");
+        
+        // For mobile
+        if (window.innerWidth <= 768) {
+          document.body.classList.toggle("sidebar-expanded");
+        }
+      });
+      
+      // Toggle submenu on click
+      document.querySelectorAll(".menu-item > .menu-title").forEach(item => {
+        item.addEventListener("click", function(e) {
+          const menuItem = this.closest(".menu-item");
+          toggleSubmenu(menuItem);
+        });
+      });
+      
+      // Handle navigation
+      document.querySelectorAll("[data-path]").forEach(link => {
+        link.addEventListener("click", function(e) {
+          e.preventDefault();
+          const path = this.getAttribute("data-path");
+          
+          if (path) {
+            // For mobile, collapse sidebar after navigation
+            if (window.innerWidth <= 768) {
+              document.body.classList.remove("sidebar-expanded");
+            }
+            
+            loadPage(path);
+            
+            // Update URL without page reload (for a more SPA-like feel)
+            history.pushState(null, "", path);
+          }
+        });
+      });
+    }
+    
+    // Initialize the sidebar and set up event listeners
+    document.addEventListener("DOMContentLoaded", function() {
+      const sidebar = document.getElementById("sidebarMenu");
+      
+      // Render initial menu
+      renderMenu(menuData, sidebar);
+      
+      // Set up event listeners
+      attachEventListeners();
+      
+      // Initial page load
+      const initialPath = "/dashboard";
+      loadPage(initialPath);
+      
+      // Handle browser back/forward navigation
+      window.addEventListener("popstate", function() {
+        const path = location.pathname;
+        if (pageContent[path]) {
+          loadPage(path);
+        } else {
+          loadPage("/dashboard");
+        }
+      });
+      
+      // Responsive behavior initialization
+      if (window.innerWidth <= 768) {
+        document.body.classList.add("sidebar-collapsed");
+      }
+    });
+    
+    // Example of how to add a new page and menu item
+    function addNewPage(title, path, content, parentPath = null, icon = "📄") {
+      // Add the page content
+      pageContent[path] = {
+        title: title,
+        breadcrumb: parentPath ? 
+          [...pageContent[parentPath].breadcrumb, title] : 
+          ["Home", title],
+        content: `
+          <div class="content-card">
+            <h2>${title}</h2>
+            <p>${content}</p>
+          </div>
+        `
+      };
+      
+      // Add menu item
+      if (parentPath) {
+        // Find parent menu item
+        const parentMenuItem = menuData.find(item => item.link === parentPath);
+        if (parentMenuItem) {
+          if (!parentMenuItem.submenu) parentMenuItem.submenu = [];
+          parentMenuItem.submenu.push({ title, link: path });
+          
+          // Update DOM
+          addMenuItem({ title, link: path }, parentPath);
+        }
+      } else {
+        // Add as top-level menu item
+        const newMenuItem = {
+          title: title,
+          icon: icon,
+          link: path
+        };
+        menuData.push(newMenuItem);
+        
+        // Update DOM
+        addMenuItem(newMenuItem);
+      }
+    }
+    
+    // Example usage (uncomment to test):
+    /*
+    setTimeout(() => {
+      addNewPage(
+        "Analytics", 
+        "/analytics",
+        "This is a dynamically added analytics page with charts and data visualization.",
+        null,
+        "📈"
+      );
+    }, 2000);
+    */
+  </script>
+</body>
+</html>

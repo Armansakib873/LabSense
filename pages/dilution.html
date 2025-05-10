@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dilution Calculator - EasyLab</title> <!-- More descriptive title -->
+        <link rel="icon" href="../assets/images/apple-touch-icon.png"> <!-- Corrected favicon path -->
+        <link rel="stylesheet" href="../css/styles.css"> <!-- Corrected CSS path -->
+        <link rel="stylesheet" href="../css/dilution.css"> <!-- Corrected CSS path (and filename - corrected spelling) -->
+        <script src="https://unpkg.com/lucide@latest"></script>
+    </head>
+<body data-page="calculation">
+    <div class="sidebar collapsed" id="sidebar">
+        <div class="sidebar-header">
+            <button id="toggleBtn" class="toggle-btn" aria-label="Toggle Sidebar"> <!-- Added aria-label -->
+                <i data-lucide="menu"></i>
+            </button>
+            <span class="sidebar-title">EasyLab</span> <!-- Corrected sidebar title to EasyLab for consistency -->
+        </div>
+        <nav>
+            <ul>
+                <li ><a href="../index.html"><i data-lucide="home"></i><span>Home</span></a></li> <!-- Corrected Home link path -->
+                <li class="has-submenu" data-submenu-id="calculations-submenu">
+                    <a href="#"><i data-lucide="calculator"></i><span>Calculations</span><i data-lucide="chevron-down" class="submenu-icon"></i></a>
+                    <ul class="submenu">
+                        <li><a href="elisa.html">ELISA</a></li>
+                        <li><a href="egfr.html">eGFR</a></li>
+                        <li class="active"><a href="dilution.html">Dilution</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu" data-submenu-id="documents-submenu"> <!-- Added data-submenu-id -->
+                    <a href="#"><i data-lucide="file-text"></i><span>Documents</span><i data-lucide="chevron-down" class="submenu-icon"></i></a>
+                    <ul class="submenu">
+                        <li><a href="excel.html">Excel</a></li>
+                        <li><a href="#cap">CAP</a></li>
+                        <li><a href="#">Websites</a></li>
+                        <li><a href="#">Other</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i data-lucide="bar-chart"></i><span>Projects</span></a></li>
+                <li><a href="#"><i data-lucide="list"></i><span>Todo-Lists</span></a></li>
+                <li><a href="#"><i data-lucide="calendar"></i><span>Calendar</span></a></li>
+                <li><a href="#"><i data-lucide="user"></i><span>Profile</span></a></li>
+            </ul>
+        </nav>
+
+    </div>
+    <main>
+        <header>
+                <div class="thyrocare-logo">
+
+                  <a href="https://www.thyrocarebd.com/" target="_blank"><img src="../assets/images/logo.png" alt="Thyrocare Logo"></a> <!-- Corrected image path -->
+                </div>
+
+                    <div class="cap">
+                       <a href="https://www.cap.org/" target="_blank"><img src="../assets/images/cap.png" alt="cap"></a>  <!-- Corrected image path -->
+                    </div>
+
+<div class="sidelogo">
+    <a class="black-logo" href="../index.html" aria-label="EasyLab Home"> <!-- Corrected Home link path and aria-label -->
+        <img src="../assets/images/logo3.png" alt="EasyLab Logo" /> <!-- Corrected image path -->
+        EasyLab
+    </a>
+
+</div>
+</header>
+
+<div class="calculator-container">
+    <div class="header-dil">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="6" x2="12" y2="18"></line>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+        </svg>
+        <h1>Laboratory Dilution Calculator</h1>
+    </div>
+
+    <div class="dil-input-section">
+        <label for="dilutionButtons">Select Dilution Factor (1:X)</label> <!-- Added 'for' attribute for label -->
+        <div class="dilution-grid" id="dilutionButtons">
+            <!-- Buttons will be added by JavaScript -->
+        </div>
+        <label for="customDilution">Dilution factor</label> <!-- Added 'for' attribute for label -->
+        <input type="number" id="customDilution" min="2" placeholder="Custom factor">
+    </div>
+
+    <div class="volume-input-section">
+        <label for="totalVolume">Target volume (µL)</label> <!-- Added 'for' attribute for label -->
+        <input type="number" id="totalVolume" min="0" value="1000" placeholder="Enter total volume">
+    </div>
+
+    <div class="results-section">
+        <h2>Results</h2>
+        <div class="result-card">
+            <div class="label">Sample Volume (Serum/Plasma/else)</div>
+            <div class="value" id="sampleVolume">0 µL</div>
+        </div>
+        <div class="result-card">
+            <div class="label">Diluent Volume (Normal Saline/else)</div>
+            <div class="value" id="diluentVolume">0 µL</div>
+        </div>
+    </div>
+
+    <div class="notes-section">
+        <h3>Notes:</h3>
+        <ul>
+            <li>All volumes are in microliters (µL)</li>
+            <li>Minimum dilution factor is 1:2</li>
+            <li>Results are rounded to 2 decimal places</li>
+            <li>For precise measurements, always verify calculations</li>
+        </ul>
+    </div>
+</div>
+
+<footer>
+    <p>Copyright: All rights Reserved</p>
+</footer>
+
+</main>
+
+<script src="../js/common.js"></script> <!-- Corrected JS path -->
+<script src="../js/dilution.js"></script> <!-- Corrected JS path (and filename - corrected spelling) -->
+</body>
+</html>
