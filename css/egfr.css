@@ -5,9 +5,18 @@
 /* ------------------------------------- */
 /*           eGFR Container            */
 /* ------------------------------------- */
+
+
+body{
+
+     display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: flex-start;
+
+}
 .egfr-container {
     max-width: 1200px;
-    margin: 0 auto;
     padding: 30px;
     font-size: 1rem;
     color: var(--text-color);
@@ -43,6 +52,7 @@
     transition: transform var(--transition-speed);
     display: flex; /* Use flexbox for input section to control form-group alignment */
     flex-direction: column; /* Stack form groups vertically */
+    font-size: 0.8rem;
 }
 
 /* ------------------------------------- */

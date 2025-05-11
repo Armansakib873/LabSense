@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laboratory Assistant</title>
+     <link rel="icon" href="favicon2.png" type="image/x-icon">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -61,6 +63,7 @@
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
+            display: NONE !important;
         }
 
         ::-webkit-scrollbar-track {
@@ -92,13 +95,39 @@
         /* Sidebar */
         .sidebar {
             transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
-
             background: radial-gradient(circle, #3b4a5ddd 0%, #616161 100%);
             width: 240px;
             color: #bbbbbbea;
-            overflow: hidden;
+            overflow: hidden !important;
             z-index: 1000;
         }
+
+        
+/* Sidebar container */
+#sidebar {
+
+    height: 100vh;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    scrollbar-width: none; /* Firefox: Hide scrollbar */
+    -ms-overflow-style: none; /* IE/Edge: Hide scrollbar */
+}
+
+/* Webkit browsers (Chrome, Safari, Edge): Hide scrollbar */
+#sidebar::-webkit-scrollbar {
+    display: none ;
+}
+
+/* Sidebar navigation content */
+#sidebar-nav {
+    width: 100%; /* Ensure content fits within sidebar width */
+    overflow-x: hidden; /* Extra precaution to prevent horizontal scroll */
+}
+
+
+
+
+
 
         .sidebar-header {
             position: sticky;
@@ -117,7 +146,7 @@
         }
 
         .sidebar-item {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             transition: all 0.3s ease;
             border-left: 4px solid transparent;
             margin: 0.25rem 0.5rem;
@@ -263,40 +292,42 @@
             transform: scale(1.1);
         }
 
-        .submenu-container {
-            height: 0;
-            width: 20vw;
-            overflow: hidden;
-            margin: 0.5rem 0.5rem;
-            border-radius: 50px;
-            align-items: right;
-            text-align: right;
-            display: flex;
-            justify-content: right;
-            flex-direction: column;
-            align-content: right;
-            background-color: #2a2a2a;
-            box-shadow:
-                0 2px 5px rgba(171, 171, 171, 0.345),
-                inset 0 0 5px rgba(223, 223, 223, 0.262);
-            padding-left: 60px !important;
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 0.1s ease-in-out,
-                        height 0.1s ease-in-out,
-                        padding 0.1s ease-in-out;
-            will-change: transform, height, padding;
-            z-index: 1000;
-        }
+     .submenu-container {
+    height: 0;
+    width: 20vw;
+    overflow: hidden;
+    margin: 0.5rem 0.5rem;
+    border-radius: 50px;
+    align-items: right;
+    text-align: right;
+    display: flex;
+    justify-content: right;
+    flex-direction: column;
+    align-content: right;
+    background-color: #2a2a2a;
+    box-shadow:
+        0 2px 5px rgba(171, 171, 171, 0.345),
+        inset 0 0 5px rgba(223, 223, 223, 0.262);
+    padding-left: 60px !important;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease-in-out,
+                height 0.3s ease-in-out,
+                padding 0.3s ease-in-out;
+    will-change: transform, height, padding;
+    z-index: 1000;
+    visibility: hidden; /* Ensure hidden when closed */
+}
 
-        .submenu-container.active {
-            height: auto;
-            transform: scaleY(1);
-            padding: 1.5rem 0;
-            transition: transform 0.3s ease-out,
-                        height 0.3s ease-out,
-                        padding 0.3s ease-out;
-        }
+.submenu-container.active {
+    height: auto;
+    transform: scaleY(1);
+    padding: 1.5rem 0;
+    visibility: visible; /* Ensure visible when open */
+    transition: transform 0.3s ease-out,
+                height 0.3s ease-out,
+                padding 0.3s ease-out;
+}
 
         .sidebar-item i {
             transition: transform 0.2s ease, color 0.2s ease;
@@ -481,27 +512,35 @@
             visibility: visible;
         }
 
-        /* Iframe Styling */
-        iframe {
+    iframe {
     border-radius: 0;
     width: 100%;
-    height: max-content;
+    height: 100%;
     overflow: hidden;
     flex: 1;
     box-shadow: -10px 0 15px -5px rgba(255, 255, 255, 0.5);
     z-index: 1000;
-}
-.main-content-area{
-    border-radius: 30px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
 }
 
-        .loading-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-        }
+    iframe[loading] {
+    opacity: 0;
+    }
+
+.loading-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.loading-container:not(.hidden) {
+    opacity: 1;
+}
     </style>
 </head>
 <body class="text-base">
@@ -514,7 +553,7 @@
                     <span>Lab Assistant</span>
                 </div>
             </div>
-            <nav class="flex-1 py-4 space-y-1.5" id="sidebar-nav">
+            <nav class="flex-1 py-1 space-y-1 overflow-y-auto" id="sidebar-nav"> <!-- Added overflow-y-auto for long menus -->
                 <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="dashboard" data-tooltip="Dashboard">
                     <i class="fas fa-tachometer-alt fa-fw w-6 mr-3 "></i>
                     <span>Dashboard</span>
@@ -533,98 +572,289 @@
                         <span>Schedule</span>
                     </a>
                 </div>
-                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="calculations" data-tooltip="calculations">
-                    <i class="fas fa-flask fa-fw w-6 mr-3 "></i>
+
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="calculations" data-tooltip="Calculations">
+                    <i class="fas fa-calculator fa-fw w-6 mr-3 "></i> <!-- Changed icon for main Calculations -->
                     <span>Calculations</span>
                 </a>
                 <div class="submenu-container" id="calculations-submenu">
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="egfr" data-tooltip="eGFR Calculation">
-                        <i class="fas fa-calculator fa-fw text-gray-400"></i>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="calculations-egfr" data-tooltip="eGFR Calculation">
+                        <i class="fas fa-calculator fa-fw text-gray-400"></i> <!-- Kept specific icon -->
                         <span>eGFR</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="active" data-tooltip="Active">
-                        <i class="fas fa-play-circle fa-fw text-gray-400"></i>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="calculations-dilution" data-tooltip="Dilution Calculator">
+                        <i class="fas fa-vials fa-fw text-gray-400"></i> <!-- Icon for dilution -->
                         <span>Dilution</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="archived" data-tooltip="Archived">
-                        <i class="fas fa-archive fa-fw text-gray-400"></i>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="calculations-elisa" data-tooltip="ELISA Calculation">
+                        <i class="fas fa-wave-square fa-fw text-gray-400"></i> <!-- Icon for ELISA -->
                         <span>ELISA</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="new" data-tooltip="Create New">
-                        <i class="fas fa-plus-circle fa-fw text-gray-400"></i>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="calculations-acr" data-tooltip="ACR Calculation">
+                        <i class="fas fa-prescription-bottle fa-fw text-gray-400"></i> <!-- Icon for ACR -->
                         <span>ACR</span>
                     </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="calculations-ccr" data-tooltip="CCR Calculation">
+                        <i class="fas fa-percentage fa-fw text-gray-400"></i>
+                        <span>CCR</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="calculations-electrolyte" data-tooltip="Electrolyte Balance">
+                        <i class="fas fa-bolt fa-fw text-gray-400"></i>
+                        <span>Electrolytes</span>
+                    </a>
                 </div>
+
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="qualitycontrol" data-tooltip="Quality Control">
+                    <i class="fas fa-clipboard-check fa-fw w-6 mr-3 "></i>
+                    <span>Quality Control</span>
+                </a>
+                <div class="submenu-container" id="qualitycontrol-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="qc-biochemistry" data-tooltip="Biochemistry QC">
+                        <i class="fas fa-atom fa-fw text-gray-400"></i>
+                        <span>Biochemistry</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="qc-immunology" data-tooltip="Immunology QC">
+                        <i class="fas fa-shield-virus fa-fw text-gray-400"></i>
+                        <span>Immunology</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="qc-hematology" data-tooltip="Hematology QC">
+                        <i class="fas fa-tint fa-fw text-gray-400"></i> <!-- fa-tint for blood drops -->
+                        <span>Hematology</span>
+                    </a>
+                </div>
+
                 <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="inventory" data-tooltip="Inventory">
                     <i class="fas fa-boxes fa-fw w-6 mr-3 "></i>
                     <span>Inventory</span>
                 </a>
                 <div class="submenu-container" id="inventory-submenu">
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="all-items" data-tooltip="All Items">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="inventory-all" data-tooltip="All Items">
                         <i class="fas fa-th-list fa-fw text-gray-400"></i>
                         <span>All Items</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="stock-levels" data-tooltip="Stock Levels">
-                        <i class="fas fa-clipboard-check fa-fw text-gray-400"></i>
-                        <span>Stock Levels</span>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="inventory-manage" data-tooltip="Manage Items & Stock">
+                        <i class="fas fa-tasks fa-fw text-gray-400"></i>
+                        <span>Manage Items</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="orders" data-tooltip="Orders">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="inventory-consumption" data-tooltip="Consumption Tracking">
+                        <i class="fas fa-chart-line fa-fw text-gray-400"></i>
+                        <span>Consumption</span>
+                    </a>
+                     <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="inventory-orders" data-tooltip="Manage Orders">
                         <i class="fas fa-shipping-fast fa-fw text-gray-400"></i>
                         <span>Orders</span>
                     </a>
                 </div>
-                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="semen" data-tooltip="Semen Analysis">
-                    <i class="fas fa-vial fa-fw w-6 mr-3 "></i>
-                    <span>Semen Analysis</span>
+
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="roster" data-tooltip="Laboratory Roster">
+                    <i class="fas fa-calendar-check fa-fw w-6 mr-3 "></i>
+                    <span>Lab Roster</span>
                 </a>
-                <div class="submenu-container" id="semen-submenu">
-                    <a href="semen.html/comment-section" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="input" data-tooltip="Data Input">
-                        <i class="fas fa-edit fa-fw text-gray-400"></i>
-                        <span>Data Input</span>
+                <div class="submenu-container" id="roster-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="roster-all" data-tooltip="View All Rosters">
+                        <i class="fas fa-list-ul fa-fw text-gray-400"></i>
+                        <span>All Rosters</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="results" data-tooltip="View Results">
-                        <i class="fas fa-poll fa-fw text-gray-400"></i>
-                        <span>View Results</span>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="roster-daily" data-tooltip="Daily Roster">
+                        <i class="fas fa-calendar-day fa-fw text-gray-400"></i>
+                        <span>Daily Roster</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="print" data-tooltip="Print Reports">
-                        <i class="fas fa-print fa-fw text-gray-400"></i>
-                        <span>Print Reports</span>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="roster-manage" data-tooltip="Manage Roster">
+                        <i class="fas fa-user-edit fa-fw text-gray-400"></i>
+                        <span>Manage Roster</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="roster-leave" data-tooltip="Leave Count">
+                        <i class="fas fa-user-minus fa-fw text-gray-400"></i>
+                        <span>Leave Count</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="roster-allowance" data-tooltip="Allowance Count">
+                        <i class="fas fa-file-invoice-dollar fa-fw text-gray-400"></i>
+                        <span>Allowance Count</span>
                     </a>
                 </div>
-                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="reports" data-tooltip="Reports">
-                    <i class="fas fa-chart-pie fa-fw w-6 mr-3 "></i>
-                    <span>Reports</span>
+
+<a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="semenanalysis" data-tooltip="Semen Analysis Module">
+    <i class="fas fa-vial fa-fw w-6 mr-3 "></i>
+    <span>Semen Analysis</span>
+</a>
+<div class="submenu-container" id="semenanalysis-submenu">
+    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="semen-input" data-tooltip="Data Input">
+        <i class="fas fa-edit fa-fw text-gray-400"></i>
+        <span>Data Input</span>
+    </a>
+    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="semen-results" data-tooltip="View Results">
+        <i class="fas fa-poll fa-fw text-gray-400"></i>
+        <span>View Results</span>
+    </a>
+    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="semen-print" data-tooltip="Print Reports">
+        <i class="fas fa-file-download fa-fw text-gray-400"></i>
+        <span>Print Reports</span>
+    </a>
+</div>
+
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="reportanalysis" data-tooltip="Report Analysis">
+                    <i class="fas fa-magnifying-glass-chart fa-fw w-6 mr-3 "></i>
+                    <span>Report Analysis</span>
                 </a>
-                <div class="submenu-container" id="reports-submenu">
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="report-overview" data-tooltip="Overview">
+                <div class="submenu-container" id="reportanalysis-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="analysis-general" data-tooltip="General Tests Analysis">
+                        <i class="fas fa-file-medical fa-fw text-gray-400"></i>
+                        <span>General Tests</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="analysis-semen" data-tooltip="Semen Analysis Trends">
+                        <i class="fas fa-microscope fa-fw text-gray-400"></i>
+                        <span>Semen Analysis</span>
+                    </a>
+                     <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="analysis-trends" data-tooltip="Trend Analysis">
+                        <i class="fas fa-chart-line fa-fw text-gray-400"></i>
+                        <span>Trend Analysis</span>
+                    </a>
+                </div>
+
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="reportgeneration" data-tooltip="Report Generation">
+                    <i class="fas fa-print fa-fw w-6 mr-3 "></i>
+                    <span>Report Generation</span>
+                </a>
+                <div class="submenu-container" id="reportgeneration-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-biochemical" data-tooltip="Biochemical Reports">
+                        <i class="fas fa-flask fa-fw text-gray-400"></i>
+                        <span>Biochemical</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-immunology" data-tooltip="Immunology Reports">
+                        <i class="fas fa-dna fa-fw text-gray-400"></i>
+                        <span>Immunology</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-serology" data-tooltip="Serology Reports">
+                        <i class="fas fa-tint fa-fw text-gray-400"></i>
+                        <span>Serology</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-microbiology" data-tooltip="Microbiology Reports">
+                        <i class="fas fa-bacteria fa-fw text-gray-400"></i>
+                        <span>Microbiology</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-urine" data-tooltip="Urine Analysis Reports">
+                        <i class="fas fa-prescription-bottle fa-fw text-gray-400"></i>
+                        <span>Urine</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-stool" data-tooltip="Stool Analysis Reports">
+                        <i class="fas fa-poo fa-fw text-gray-400"></i>
+                        <span>Stool</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-afb" data-tooltip="AFB Smear Reports">
+                        <i class="fas fa-lungs fa-fw text-gray-400"></i>
+                        <span>AFB</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-gramstain" data-tooltip="Gram Stain Reports">
+                        <i class="fas fa-eye-dropper fa-fw text-gray-400"></i>
+                        <span>Gram Stain</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-fluidcytology" data-tooltip="Fluid Cytology Reports">
+                        <i class="fas fa-disease fa-fw text-gray-400"></i>
+                        <span>Fluid Cytology</span>
+                    </a>
+                     <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="gen-custom" data-tooltip="Custom Report Templates">
+                        <i class="fas fa-file-pen fa-fw text-gray-400"></i>
+                        <span>Custom Templates</span>
+                    </a>
+                </div>
+
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="documentation" data-tooltip="Documentation & SOPs">
+                    <i class="fas fa-folder-open fa-fw w-6 mr-3 "></i>
+                    <span>Documentation</span>
+                </a>
+                <div class="submenu-container" id="documentation-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="doc-qcsummary" data-tooltip="QC Summary Documents">
+                        <i class="fas fa-file-contract fa-fw text-gray-400"></i>
+                        <span>QC Summary</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="doc-consumption" data-tooltip="Consumption Reports/Docs">
+                        <i class="fas fa-file-lines fa-fw text-gray-400"></i>
+                        <span>Consumption Docs</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="doc-sops" data-tooltip="Standard Operating Procedures">
+                        <i class="fas fa-book-open fa-fw text-gray-400"></i>
+                        <span>SOPs</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5" data-subpage="doc-training" data-tooltip="Training Materials">
+                        <i class="fas fa-chalkboard-teacher fa-fw text-gray-400"></i>
+                        <span>Training Materials</span>
+                    </a>
+                </div>
+                
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="generalreports" data-tooltip="General Reports">
+                    <i class="fas fa-chart-area fa-fw w-6 mr-3 "></i>
+                    <span>General Reports</span>
+                </a>
+                <div class="submenu-container" id="generalreports-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="report-overview" data-tooltip="Reports Overview">
                         <i class="fas fa-file-alt fa-fw text-gray-400"></i>
                         <span>Overview</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="custom" data-tooltip="Custom Reports">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="report-custom" data-tooltip="Create Custom Reports">
                         <i class="fas fa-cogs fa-fw text-gray-400"></i>
                         <span>Custom Reports</span>
                     </a>
                 </div>
+
+                <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="tools" data-tooltip="Utility Tools">
+                    <i class="fas fa-tools fa-fw w-6 mr-3 "></i>
+                    <span>Tools</span>
+                </a>
+                <div class="submenu-container" id="tools-submenu">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="tools-calendar" data-tooltip="Calendar">
+                        <i class="fas fa-calendar-days fa-fw text-gray-400"></i>
+                        <span>Calendar</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="tools-calculator" data-tooltip="Calculator">
+                        <i class="fas fa-calculator fa-fw text-gray-400"></i>
+                        <span>Calculator</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="tools-clock" data-tooltip="Clock">
+                        <i class="fas fa-clock fa-fw text-gray-400"></i>
+                        <span>Clock</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="tools-timer" data-tooltip="Timer & Stopwatch">
+                        <i class="fas fa-stopwatch-20 fa-fw text-gray-400"></i>
+                        <span>Timer</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="tools-notepad" data-tooltip="Notepad">
+                        <i class="fas fa-note-sticky fa-fw text-gray-400"></i>
+                        <span>Notepad</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="tools-unitconverter" data-tooltip="Unit Converter">
+                        <i class="fas fa-right-left fa-fw text-gray-400"></i>
+                        <span>Unit Converter</span>
+                    </a>
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="tools-referenceranges" data-tooltip="Reference Ranges">
+                        <i class="fas fa-book-medical fa-fw text-gray-400"></i>
+                        <span>Reference Ranges</span>
+                    </a>
+                </div>
+
                 <a href="#" class="sidebar-item sidebar-main-item flex items-center px-2 py-1 " data-page="settings" data-tooltip="Settings">
                     <i class="fas fa-cog fa-fw w-6 mr-3 "></i>
                     <span>Settings</span>
                 </a>
                 <div class="submenu-container" id="settings-submenu">
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="account" data-tooltip="Account">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="settings-account" data-tooltip="Account Settings">
                         <i class="fas fa-user-cog fa-fw text-gray-400"></i>
                         <span>Account</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="team" data-tooltip="Team">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="settings-team" data-tooltip="Team Management">
                         <i class="fas fa-users-cog fa-fw text-gray-400"></i>
                         <span>Team</span>
                     </a>
-                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="notifications" data-tooltip="Notifications">
+                    <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="settings-notifications" data-tooltip="Notification Preferences">
                         <i class="fas fa-bell fa-fw text-gray-400"></i>
                         <span>Notifications</span>
                     </a>
+                     <a href="#" class="sidebar-submenu-item flex items-center py-0.5  " data-subpage="settings-lab" data-tooltip="Lab Configuration">
+                        <i class="fas fa-microscope fa-fw text-gray-400"></i>
+                        <span>Lab Setup</span>
+                    </a>
                 </div>
             </nav>
-            <div class="p-4 border-t border-gray-200 mt-auto">
+            <div class="p-2 border-t border-gray-200 mt-auto">
                 <a href="#" class="flex items-center hover:text-blue-500">
                     <i class="fas fa-question-circle fa-fw mr-2"></i>
                     Help & Support
@@ -636,7 +866,7 @@
         <div id="overlay" class="overlay fixed inset-0 bg-black bg-opacity-50 md:hidden"></div>
 
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col overflow-hidden main-content-area">
+        <div class="flex-1 flex flex-col overflow-hidden main-content-area"> <!-- Added main-content-area class for potential specific styling -->
             <!-- Header -->
             <header class="bg-white h-16 flex items-center justify-between px-4 sm:px-6 flex-shrink-0">
                 <div class="flex items-center flex-1">
@@ -703,27 +933,52 @@
             <!-- Main Content -->
             <main class="flex-1 overflow-y-auto p-4 sm:p-6" id="main-content">
                 <div class="page-content active" id="dashboard-content">
-                    <iframe id="dashboard-iframe" data-src="dashboard.html" class="w-full h-full"></iframe>
+                   <iframe id="dashboard-iframe" data-src="dashboard-overview.html" class="w-full h-full"></iframe>
+
                 </div>
                 <div class="page-content" id="calculations-content">
                     <div class="loading-container hidden" id="calculations-loading"><div class="loading-spinner"></div></div>
                     <iframe id="calculations-iframe" data-src="calculations.html" class="w-full h-full"></iframe>
                 </div>
+                <div class="page-content" id="qualitycontrol-content">
+                    <div class="loading-container hidden" id="qualitycontrol-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="qualitycontrol-iframe" data-src="qualitycontrol.html" class="w-full h-full"></iframe>
+                </div>
                 <div class="page-content" id="inventory-content">
                     <div class="loading-container hidden" id="inventory-loading"><div class="loading-spinner"></div></div>
                     <iframe id="inventory-iframe" data-src="inventory.html" class="w-full h-full"></iframe>
                 </div>
-                <div class="page-content" id="reports-content">
-                    <div class="loading-container hidden" id="reports-loading"><div class="loading-spinner"></div></div>
-                    <iframe id="reports-iframe" data-src="reports.html" class="w-full h-full"></iframe>
+                <div class="page-content" id="roster-content">
+                    <div class="loading-container hidden" id="roster-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="roster-iframe" data-src="roster.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="semenanalysis-content"> <!-- Updated from semen-content -->
+                    <div class="loading-container hidden" id="semenanalysis-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="semenanalysis-iframe" data-src="semen.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="reportanalysis-content">
+                    <div class="loading-container hidden" id="reportanalysis-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="reportanalysis-iframe" data-src="reportanalysis.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="reportgeneration-content">
+                    <div class="loading-container hidden" id="reportgeneration-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="reportgeneration-iframe" data-src="reportgeneration.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="documentation-content">
+                    <div class="loading-container hidden" id="documentation-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="documentation-iframe" data-src="documentation.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="generalreports-content"> <!-- Updated from reports-content -->
+                    <div class="loading-container hidden" id="generalreports-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="generalreports-iframe" data-src="generalreports.html" class="w-full h-full"></iframe>
+                </div>
+                <div class="page-content" id="tools-content">
+                    <div class="loading-container hidden" id="tools-loading"><div class="loading-spinner"></div></div>
+                    <iframe id="tools-iframe" data-src="tools.html" class="w-full h-full"></iframe>
                 </div>
                 <div class="page-content" id="settings-content">
                     <div class="loading-container hidden" id="settings-loading"><div class="loading-spinner"></div></div>
                     <iframe id="settings-iframe" data-src="settings.html" class="w-full h-full"></iframe>
-                </div>
-                <div class="page-content" id="semen-content">
-                    <div class="loading-container hidden" id="semen-loading"><div class="loading-spinner"></div></div>
-                    <iframe id="semen-iframe" data-src="semen.html" class="w-full h-full"></iframe>
                 </div>
             </main>
 
@@ -734,422 +989,605 @@
                     <span class="text-xs font-medium">Dashboard</span>
                 </a>
                 <a href="#" class="bottom-nav-item flex-1 flex flex-col items-center justify-center py-2 text-center" data-page="calculations" aria-label="Navigate to calculations">
-                    <i class="fas fa-flask text-xl mb-0.5"></i>
-                    <span class="text-xs font-medium">calculations</span>
+                    <i class="fas fa-calculator text-xl mb-0.5"></i> <!-- Matched icon with sidebar -->
+                    <span class="text-xs font-medium">Calculations</span>
                 </a>
                 <a href="#" class="bottom-nav-item flex-1 flex flex-col items-center justify-center py-2 text-center" data-page="inventory" aria-label="Navigate to Inventory">
                     <i class="fas fa-boxes text-xl mb-0.5"></i>
                     <span class="text-xs font-medium">Inventory</span>
                 </a>
-                <a href="#" class="bottom-nav-item flex-1 flex flex-col items-center justify-center py-2 text-center" data-page="semen" aria-label="Navigate to Semen Analysis">
+                <a href="#" class="bottom-nav-item flex-1 flex flex-col items-center justify-center py-2 text-center" data-page="semenanalysis" aria-label="Navigate to Semen Analysis"> <!-- Updated data-page -->
                     <i class="fas fa-vial text-xl mb-0.5"></i>
                     <span class="text-xs font-medium">Semen</span>
+                </a>
+                <!-- You might want to add one more common item here for mobile, e.g., Tools or Reports -->
+                 <a href="#" class="bottom-nav-item flex-1 flex flex-col items-center justify-center py-2 text-center" data-page="tools" aria-label="Navigate to Tools">
+                    <i class="fas fa-tools text-xl mb-0.5"></i>
+                    <span class="text-xs font-medium">Tools</span>
                 </a>
             </nav>
         </div>
     </div>
 
-    <script>
-        const pages = {
-            dashboard: { title: 'Dashboard', url: 'dashboard.html' },
-            calculations: {
-                title: 'Calculations',
-                url: 'calculations.html',
-                subpages: {
-                    all: { title: 'All Calculations', url: 'calculations.html#all' },
-                    active: { title: 'Dilution', url: 'calculations.html#active' },
-                    archived: { title: 'ELISA', url: 'calculations.html#archived' },
-                    new: { title: 'ACR', url: 'calculations.html#new' },
-                    egfr: { title: 'eGFR Calculation', url: 'egfr.html' }
+   <script>
+const sidebar = document.getElementById('sidebar');
+const sidebarNav = document.getElementById('sidebar-nav');
+const menuToggleBtn = document.getElementById('menu-toggle-btn');
+const overlay = document.getElementById('overlay');
+const userMenuBtn = document.getElementById('user-menu-btn');
+const userDropdown = document.getElementById('user-dropdown');
+const bottomNav = document.querySelector('.bottom-nav');
+const breadcrumbCurrent = document.getElementById('breadcrumb-current');
+const breadcrumbSubpageContainer = document.getElementById('breadcrumb-subpage-container');
+const breadcrumbSubpage = document.getElementById('breadcrumb-subpage');
+const pageContents = document.querySelectorAll('.page-content');
+const submenuContainers = document.querySelectorAll('.submenu-container');
+
+const pages = {
+    dashboard: {
+        title: 'Dashboard',
+        subpages: {
+            'overview': { title: 'Overview', url: 'dashboard-overview.html' },
+            'analytics': { title: 'Analytics', url: 'dashboard-analytics.html' },
+            'schedule': { title: 'Schedule', url: 'dashboard-schedule.html' }
+        }
+    },
+    calculations: {
+        title: 'Calculations',
+        subpages: {
+            'calculations-egfr': { title: 'eGFR Calculation', url: 'calculations-egfr.html' },
+            'calculations-dilution': { title: 'Dilution Calculator', url: 'calculations-dilution.html' },
+            'calculations-elisa': { title: 'ELISA Calculation', url: 'calculations-elisa.html' },
+            'calculations-acr': { title: 'ACR Calculation', url: 'calculations-acr.html' },
+            'calculations-ccr': { title: 'CCR Calculation', url: 'calculations-ccr.html' },
+            'calculations-electrolyte': { title: 'Electrolyte Balance', url: 'calculations-electrolyte.html' }
+        }
+    },
+    qualitycontrol: {
+        title: 'Quality Control',
+        subpages: {
+            'qc-biochemistry': { title: 'Biochemistry QC', url: 'qc-biochemistry.html' },
+            'qc-immunology': { title: 'Immunology QC', url: 'qc-immunology.html' },
+            'qc-hematology': { title: 'Hematology QC', url: 'qc-hematology.html' }
+        }
+    },
+    inventory: {
+        title: 'Inventory',
+        subpages: {
+            'inventory-all': { title: 'All Items', url: 'inventory-all.html' },
+            'inventory-manage': { title: 'Manage Items & Stock', url: 'inventory-manage.html' },
+            'inventory-consumption': { title: 'Consumption Tracking', url: 'inventory-consumption.html' },
+            'inventory-orders': { title: 'Manage Orders', url: 'inventory-orders.html' }
+        }
+    },
+    roster: {
+        title: 'Lab Roster',
+        subpages: {
+            'roster-all': { title: 'View All Rosters', url: 'roster-all.html' },
+            'roster-daily': { title: 'Daily Roster', url: 'roster-daily.html' },
+            'roster-manage': { title: 'Manage Roster', url: 'roster-manage.html' },
+            'roster-leave': { title: 'Leave Count', url: 'roster-leave.html' },
+            'roster-allowance': { title: 'Allowance Count', url: 'roster-allowance.html' }
+        }
+    },
+    semenanalysis: {
+        title: 'Semen Analysis',
+        subpages: {
+            'semen-input': { title: 'Data Input', url: 'semen-input.html' },
+            'semen-results': { title: 'View Results', url: 'semen-results.html' },
+            'semen-print': { title: 'Print Reports', url: 'semen-print.html' }
+        }
+    },
+    reportanalysis: {
+        title: 'Report Analysis',
+        subpages: {
+            'analysis-general': { title: 'General Tests Analysis', url: 'reportanalysis-general.html' },
+            'analysis-semen': { title: 'Semen Analysis Trends', url: 'reportanalysis-semen.html' },
+            'analysis-trends': { title: 'Trend Analysis', url: 'reportanalysis-trends.html' }
+        }
+    },
+    reportgeneration: {
+        title: 'Report Generation',
+        subpages: {
+            'gen-biochemical': { title: 'Biochemical Reports', url: 'reportgeneration-biochemical.html' },
+            'gen-immunology': { title: 'Immunology Reports', url: 'reportgeneration-immunology.html' },
+            'gen-serology': { title: 'Serology Reports', url: 'reportgeneration-serology.html' },
+            'gen-microbiology': { title: 'Microbiology Reports', url: 'reportgeneration-microbiology.html' },
+            'gen-urine': { title: 'Urine Analysis Reports', url: 'reportgeneration-urine.html' },
+            'gen-stool': { title: 'Stool Analysis Reports', url: 'reportgeneration-stool.html' },
+            'gen-afb': { title: 'AFB Smear Reports', url: 'reportgeneration-afb.html' },
+            'gen-gramstain': { title: 'Gram Stain Reports', url: 'reportgeneration-gramstain.html' },
+            'gen-fluidcytology': { title: 'Fluid Cytology Reports', url: 'reportgeneration-fluidcytology.html' },
+            'gen-custom': { title: 'Custom Report Templates', url: 'reportgeneration-custom.html' }
+        }
+    },
+    documentation: {
+        title: 'Documentation',
+        subpages: {
+            'doc-qcsummary': { title: 'QC Summary Documents', url: 'documentation-qcsummary.html' },
+            'doc-consumption': { title: 'Consumption Reports/Docs', url: 'documentation-consumption.html' },
+            'doc-sops': { title: 'Standard Operating Procedures', url: 'documentation-sops.html' },
+            'doc-training': { title: 'Training Materials', url: 'documentation-training.html' }
+        }
+    },
+    generalreports: {
+        title: 'General Reports',
+        subpages: {
+            'report-overview': { title: 'Reports Overview', url: 'generalreports-overview.html' },
+            'report-custom': { title: 'Create Custom Reports', url: 'generalreports-custom.html' }
+        }
+    },
+    tools: {
+        title: 'Tools',
+        subpages: {
+            'tools-calendar': { title: 'Calendar', url: 'tools-calendar.html' },
+            'tools-calculator': { title: 'Calculator', url: 'tools-calculator.html' },
+            'tools-clock': { title: 'Clock', url: 'tools-clock.html' },
+            'tools-timer': { title: 'Timer & Stopwatch', url: 'tools-timer.html' },
+            'tools-notepad': { title: 'Notepad', url: 'tools-notepad.html' },
+            'tools-unitconverter': { title: 'Unit Converter', url: 'tools-unitconverter.html' },
+            'tools-referenceranges': { title: 'Reference Ranges', url: 'tools-referenceranges.html' }
+        }
+    },
+    settings: {
+        title: 'Settings',
+        subpages: {
+            'settings-account': { title: 'Account Settings', url: 'settings-account.html' },
+            'settings-team': { title: 'Team Management', url: 'settings-team.html' },
+            'settings-notifications': { title: 'Notification Preferences', url: 'settings-notifications.html' },
+            'settings-lab': { title: 'Lab Configuration', url: 'settings-labsetup.html' }
+        }
+    }
+};
+
+class NavManager {
+    constructor() {
+        this.currentPage = localStorage.getItem('currentPage') || 'dashboard';
+        this.currentSubPage = localStorage.getItem('currentSubPage') || null;
+        this.openSubmenuId = localStorage.getItem('openSubmenuId') || null;
+        this.initEventListeners();
+        this.loadInitialPage();
+        this.handleResponsive();
+    }
+
+    initEventListeners() {
+        menuToggleBtn.addEventListener('click', () => this.toggleSidebar());
+        overlay.addEventListener('click', () => this.closeSidebar());
+
+        userMenuBtn.addEventListener('click', () => {
+            const isHidden = userDropdown.classList.toggle('hidden');
+            userMenuBtn.setAttribute('aria-expanded', !isHidden);
+        });
+        document.addEventListener('click', (e) => {
+            if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+                userDropdown.classList.add('hidden');
+                userMenuBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        const handleNavClick = this.debounce((e) => {
+            const mainPageLink = e.target.closest('.sidebar-main-item[data-page], a[data-page]:not(.sidebar-main-item):not(.sidebar-submenu-item)');
+            const subPageLink = e.target.closest('.sidebar-submenu-item[data-subpage]');
+            const statCard = e.target.closest('.stat-card[data-page][data-subpage]');
+
+            if (mainPageLink && mainPageLink.dataset.page) {
+                e.preventDefault();
+                const pageId = mainPageLink.dataset.page;
+                console.log(`Main menu clicked: ${pageId}`);
+                this.handleMainMenuClick(pageId);
+            } else if (subPageLink && subPageLink.dataset.subpage) {
+                e.preventDefault();
+                const subPageId = subPageLink.dataset.subpage;
+                const parentPageId = subPageLink.closest('.submenu-container').id.replace('-submenu', '');
+                console.log(`Submenu clicked: ${parentPageId} -> ${subPageId}`);
+                this.changeSubPage(parentPageId, subPageId, subPageLink);
+                if (window.innerWidth < 768 && !sidebar.classList.contains('-translate-x-full')) {
+                    this.closeSidebar();
                 }
-            },
-            inventory: { title: 'Inventory', url: 'inventory.html' },
-            reports: { title: 'Reports', url: 'reports.html' },
-            settings: { title: 'Settings', url: 'settings.html' },
-            semen: { title: 'Semen Analysis', url: 'semen.html' }
-        };
-
-        const sidebar = document.getElementById('sidebar');
-        const sidebarNav = document.getElementById('sidebar-nav');
-        const menuToggleBtn = document.getElementById('menu-toggle-btn');
-        const overlay = document.getElementById('overlay');
-        const userMenuBtn = document.getElementById('user-menu-btn');
-        const userDropdown = document.getElementById('user-dropdown');
-        const bottomNav = document.querySelector('.bottom-nav');
-        const breadcrumbCurrent = document.getElementById('breadcrumb-current');
-        const breadcrumbSubpageContainer = document.getElementById('breadcrumb-subpage-container');
-        const breadcrumbSubpage = document.getElementById('breadcrumb-subpage');
-        const pageContents = document.querySelectorAll('.page-content');
-        const submenuContainers = document.querySelectorAll('.submenu-container');
-
-        class NavManager {
-            constructor() {
-                this.currentPage = localStorage.getItem('currentPage') || 'dashboard';
-                this.currentSubPage = localStorage.getItem('currentSubPage') || null;
-                this.initEventListeners();
-                this.loadInitialPage();
-                this.handleResponsive();
-            }
-
-            initEventListeners() {
-                menuToggleBtn.addEventListener('click', () => this.toggleSidebar());
-                overlay.addEventListener('click', () => this.closeSidebar());
-
-                userMenuBtn.addEventListener('click', () => {
-                    const isHidden = userDropdown.classList.toggle('hidden');
-                    userMenuBtn.setAttribute('aria-expanded', !isHidden);
-                });
-                document.addEventListener('click', (e) => {
-                    if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
-                        userDropdown.classList.add('hidden');
-                        userMenuBtn.setAttribute('aria-expanded', 'false');
+            } else if (statCard && statCard.dataset.page && statCard.dataset.subpage) {
+                e.preventDefault();
+                const pageId = statCard.dataset.page;
+                const subPageId = statCard.dataset.subpage;
+                console.log(`Stat card clicked: ${pageId} -> ${subPageId}`);
+                this.changePage(pageId);
+                const subItem = document.querySelector(`#${pageId}-submenu .sidebar-submenu-item[data-subpage="${subPageId}"]`);
+                if (subItem) {
+                    const submenu = document.getElementById(`${pageId}-submenu`);
+                    if (submenu && !submenu.classList.contains('active')) {
+                        this.toggleSubmenu(submenu);
                     }
-                });
-
-                document.addEventListener('click', (e) => {
-                    const mainPageLink = e.target.closest('.sidebar-main-item[data-page], a[data-page]:not(.sidebar-main-item)');
-                    const subPageLink = e.target.closest('.sidebar-submenu-item[data-subpage]');
-                    const statCard = e.target.closest('.stat-card[data-page][data-subpage]');
-
-                    if (mainPageLink && mainPageLink.dataset.page) {
-                        e.preventDefault();
-                        const pageId = mainPageLink.dataset.page;
-                        if (pageId !== this.currentPage) {
-                            this.changePage(pageId);
-                        } else {
-                            const submenu = document.getElementById(`${pageId}-submenu`);
-                            if (submenu) this.toggleSubmenu(submenu);
-                        }
-                    } else if (subPageLink && subPageLink.dataset.subpage) {
-                        e.preventDefault();
-                        const subPageId = subPageLink.dataset.subpage;
-                        const parentPageId = subPageLink.closest('.submenu-container').id.replace('-submenu', '');
-                        this.changeSubPage(parentPageId, subPageId, subPageLink);
-                        if (window.innerWidth < 768 && !sidebar.classList.contains('-translate-x-full')) {
-                            this.closeSidebar();
-                        }
-                    } else if (statCard && statCard.dataset.page && statCard.dataset.subpage) {
-                        e.preventDefault();
-                        const pageId = statCard.dataset.page;
-                        const subPageId = statCard.dataset.subpage;
-                        this.changePage(pageId);
-                        const subItem = document.querySelector(`#${pageId}-submenu .sidebar-submenu-item[data-subpage="${subPageId}"]`);
-                        if (subItem) {
-                            this.changeSubPage(pageId, subPageId, subItem);
-                        }
-                    }
-                });
-
-                sidebarNav.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        const item = e.target.closest('.sidebar-item');
-                        if (item) item.click();
-                    }
-                });
-
-                window.addEventListener('resize', this.debounce(() => this.handleResponsive(), 150));
-            }
-
-            toggleSubmenu(submenu) {
-                const submenuId = submenu.id;
-                const openingDuration = 300;
-                const closingDuration = 100;
-
-                if (submenu.classList.contains('active')) {
-                    submenu.style.height = `${submenu.scrollHeight}px`;
-                    submenu.offsetHeight;
-                    submenu.style.height = '0';
-                    submenu.style.transform = 'scaleY(0)';
-                    submenu.style.padding = '0';
-                    submenu.classList.remove('active');
-                    setTimeout(() => {
-                        if (!submenu.classList.contains('active')) {
-                            submenu.style.height = '';
-                            submenu.style.transform = '';
-                            submenu.style.padding = '';
-                        }
-                    }, closingDuration);
-                    if (localStorage.getItem('openSubmenuId') === submenuId) {
-                        localStorage.removeItem('openSubmenuId');
-                    }
-                    this.openSubmenuId = null;
-                } else {
-                    const activeSubmenu = document.querySelector('.submenu-container.active');
-                    const openTargetSubmenu = () => {
-                        submenu.classList.add('active');
-                        submenu.style.height = '0';
-                        submenu.style.transform = 'scaleY(0)';
-                        submenu.style.padding = '0';
-                        submenu.offsetHeight;
-                        submenu.style.height = `${submenu.scrollHeight}px`;
-                        submenu.style.transform = 'scaleY(1)';
-                        submenu.style.padding = '1.5rem 0';
-                        setTimeout(() => {
-                            if (submenu.classList.contains('active')) {
-                                submenu.style.height = 'auto';
-                            }
-                        }, openingDuration);
-                        localStorage.setItem('openSubmenuId', submenuId);
-                        this.openSubmenuId = submenuId;
-                    };
-
-                    if (activeSubmenu && activeSubmenu !== submenu) {
-                        activeSubmenu.style.height = `${activeSubmenu.scrollHeight}px`;
-                        activeSubmenu.offsetHeight;
-                        activeSubmenu.style.height = '0';
-                        activeSubmenu.style.transform = 'scaleY(0)';
-                        activeSubmenu.style.padding = '0';
-                        activeSubmenu.classList.remove('active');
-                        if (localStorage.getItem('openSubmenuId') === activeSubmenu.id) {
-                            localStorage.removeItem('openSubmenuId');
-                        }
-                        setTimeout(() => {
-                            if (!activeSubmenu.classList.contains('active')) {
-                                activeSubmenu.style.height = '';
-                                activeSubmenu.style.transform = '';
-                                activeSubmenu.style.padding = '';
-                            }
-                            openTargetSubmenu();
-                        }, closingDuration - 100);
-                    } else {
-                        openTargetSubmenu();
-                    }
+                    this.changeSubPage(pageId, subPageId, subItem);
                 }
             }
+        }, 200);
 
-            toggleSidebar() {
-                sidebar.classList.toggle('-translate-x-full');
-                overlay.classList.toggle('active');
+        document.addEventListener('click', handleNavClick);
+
+        sidebarNav.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const item = e.target.closest('.sidebar-item');
+                if (item) item.click();
             }
+        });
 
-            closeSidebar() {
-                sidebar.classList.add('-translate-x-full');
-                overlay.classList.remove('active');
-            }
+        window.addEventListener('resize', this.debounce(() => this.handleResponsive(), 150));
+    }
 
-            loadInitialPage() {
-                this.currentPage = localStorage.getItem('currentPage') || 'dashboard';
-                this.currentSubPage = localStorage.getItem('currentSubPage') || null;
-                this.openSubmenuId = localStorage.getItem('openSubmenuId') || null;
-                this.changePage(this.currentPage, true);
-            }
+    handleMainMenuClick(pageId) {
+        if (!pages[pageId]) {
+            console.warn(`Page definition not found for: ${pageId}`);
+            return;
+        }
 
-            changePage(pageId, isInitialLoad = false) {
-                if (!pages[pageId]) return;
+        this.currentPage = pageId;
+        localStorage.setItem('currentPage', pageId);
 
-                document.querySelectorAll('.sidebar-submenu-item.active').forEach(item => {
-                    item.classList.remove('active');
-                });
+        const submenu = document.getElementById(`${pageId}-submenu`);
+        if (submenu) {
+            this.toggleSubmenu(submenu);
 
-                const previousPage = this.currentPage;
-                this.currentPage = pageId;
-                localStorage.setItem('currentPage', pageId);
-
-                const pageContent = document.getElementById(`${pageId}-content`);
-                const iframe = document.getElementById(`${pageId}-iframe`);
-                const loadingElement = document.getElementById(`${pageId}-loading`);
-
-                if (!isInitialLoad) {
-                    this.currentSubPage = null;
-                    localStorage.removeItem('currentSubPage');
-                }
-
-                if (pageContent) {
-                    pageContents.forEach(page => {
-                        if (page.id !== `${pageId}-content`) {
-                            page.classList.remove('active');
-                        }
-                    });
-
-                    if (loadingElement) loadingElement.classList.remove('hidden');
-
-                    setTimeout(() => pageContent.classList.add('active'), 50);
-
-                    if (iframe && (!iframe.src || iframe.getAttribute('data-src') !== iframe.src) && iframe.dataset.src) {
-                        iframe.src = iframe.dataset.src;
-                        iframe.onload = () => {
-                            if (loadingElement) loadingElement.classList.add('hidden');
-                            iframe.style.height = '100%';
-                            iframe.style.width = '100%';
-                        };
-                        iframe.onerror = () => {
-                            if (loadingElement) loadingElement.classList.add('hidden');
-                            pageContent.innerHTML = `<div class="text-red-600 p-4">Error loading content. Please try again later.</div>`;
-                        };
-                    } else if (iframe && iframe.src) {
-                        if (loadingElement) loadingElement.classList.add('hidden');
-                        iframe.style.height = '100%';
-                        iframe.style.width = '100%';
-                    } else {
-                        if (loadingElement) loadingElement.classList.add('hidden');
+            if (!submenu.classList.contains('active')) {
+                if (this.currentSubPage && pages[pageId].subpages[this.currentSubPage]) {
+                    const subItem = submenu.querySelector(`.sidebar-submenu-item[data-subpage="${this.currentSubPage}"]`);
+                    if (subItem) {
+                        this.changeSubPage(pageId, this.currentSubPage, subItem);
                     }
                 } else {
-                    document.querySelectorAll('.loading-container').forEach(spinner => spinner.classList.add('hidden'));
-                }
-
-                this.updateNavigation(pageId);
-                this.updateSubmenuVisibility(pageId, isInitialLoad);
-                breadcrumbCurrent.textContent = pages[pageId].title;
-            }
-
-            changeSubPage(parentPageId, subPageId, clickedElement) {
-                if (parentPageId !== this.currentPage) {
-                    this.changePage(parentPageId);
-                    return;
-                }
-
-                this.currentSubPage = subPageId;
-                localStorage.setItem('currentSubPage', subPageId);
-
-                const currentSubmenu = document.getElementById(`${parentPageId}-submenu`);
-                if (currentSubmenu) {
-                    currentSubmenu.querySelectorAll('.sidebar-submenu-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    if (clickedElement) {
-                        clickedElement.classList.add('active');
-                        breadcrumbSubpage.textContent = clickedElement.querySelector('span').textContent;
-                        breadcrumbSubpageContainer.classList.remove('hidden');
+                    const firstSubItem = submenu.querySelector('.sidebar-submenu-item');
+                    if (firstSubItem) {
+                        const subPageId = firstSubItem.dataset.subpage;
+                        this.changeSubPage(pageId, subPageId, firstSubItem);
                     }
                 }
-
-                if (parentPageId === 'calculations') {
-                    const iframe = document.getElementById('calculations-iframe');
-                    const loadingElement = document.getElementById('calculations-loading');
-                    let newSrc = 'calculations.html';
-
-                    if (subPageId === 'egfr') {
-                        newSrc = 'egfr.html';
-                    } else if (subPageId === 'all') {
-                        newSrc = 'calculations.html#all';
-                    } else if (subPageId === 'active') {
-                        newSrc = 'calculations.html#active';
-                    } else if (subPageId === 'archived') {
-                        newSrc = 'calculations.html#archived';
-                    } else if (subPageId === 'new') {
-                        newSrc = 'calculations.html#new';
-                    }
-
-                    if (iframe && newSrc !== iframe.src) {
-                        if (loadingElement) loadingElement.classList.remove('hidden');
-                        iframe.src = newSrc;
-                        iframe.onload = () => {
-                            if (loadingElement) loadingElement.classList.add('hidden');
-                            iframe.style.height = '100%';
-                            iframe.style.width = '100%';
-                        };
-                        iframe.onerror = () => {
-                            if (loadingElement) loadingElement.classList.add('hidden');
-                            document.getElementById('calculations-content').innerHTML = `<div class="text-red-600 p-4">Error loading content. Please try again later.</div>`;
-                        };
-                    } else {
-                        iframe.style.height = '100%';
-                        iframe.style.width = '100%';
-                    }
-                }
-            }
-
-            updateNavigation(pageId) {
-                sidebarNav.querySelectorAll('.sidebar-main-item').forEach(item => {
-                    item.classList.toggle('active', item.dataset.page === pageId);
-                });
-
-                bottomNav.querySelectorAll('.bottom-nav-item').forEach(item => {
-                    if (item.dataset.page) {
-                        item.classList.toggle('active', item.dataset.page === pageId);
-                        item.setAttribute('aria-current', item.dataset.page === pageId ? 'page' : 'false');
-                    }
-                });
-            }
-
-            updateSubmenuVisibility(pageId, isInitialLoad = false) {
-                const targetSubmenu = document.getElementById(`${pageId}-submenu`);
-                const savedOpenSubmenuId = isInitialLoad ? this.openSubmenuId : null;
-
-                submenuContainers.forEach(container => {
-                    if (container.id !== `${pageId}-submenu` && container.classList.contains('active')) {
-                        this.toggleSubmenu(container);
-                    }
-                });
-
+            } else {
+                this.currentSubPage = null;
+                localStorage.removeItem('currentSubPage');
                 breadcrumbSubpageContainer.classList.add('hidden');
+            }
+        } else {
+            this.currentSubPage = null;
+            localStorage.removeItem('currentSubPage');
+            breadcrumbSubpageContainer.classList.add('hidden');
+        }
 
-                if (targetSubmenu) {
-                    if (isInitialLoad && savedOpenSubmenuId && targetSubmenu.id === savedOpenSubmenuId) {
-                        if (!targetSubmenu.classList.contains('active')) {
-                            targetSubmenu.classList.add('active');
-                            targetSubmenu.style.height = 'auto';
-                            targetSubmenu.style.transform = 'scaleY(1)';
-                            targetSubmenu.style.padding = '1.5rem 0';
-                        }
-                    } else if (!isInitialLoad && !targetSubmenu.classList.contains('active')) {
-                        this.toggleSubmenu(targetSubmenu);
-                    }
+        this.updateNavigation(pageId);
+        breadcrumbCurrent.textContent = pages[pageId].title;
+    }
 
-                    let subItemToActivate = null;
-                    if (this.currentSubPage) {
-                        subItemToActivate = targetSubmenu.querySelector(`.sidebar-submenu-item[data-subpage="${this.currentSubPage}"]`);
-                    }
-                    if (!subItemToActivate) {
-                        subItemToActivate = targetSubmenu.querySelector('.sidebar-submenu-item');
-                        if (subItemToActivate) {
-                            this.currentSubPage = subItemToActivate.dataset.subpage;
-                            if (!isInitialLoad) {
-                                localStorage.setItem('currentSubPage', this.currentSubPage);
-                            }
-                        } else {
-                            this.currentSubPage = null;
-                            localStorage.removeItem('currentSubPage');
-                        }
-                    }
+    toggleSubmenu(submenu) {
+        const submenuId = submenu.id;
+        console.log(`Toggling submenu: ${submenuId}, currently active: ${submenu.classList.contains('active')}`);
+        const openingDuration = 300;
+        const closingDuration = 100;
 
-                    targetSubmenu.querySelectorAll('.sidebar-submenu-item.active').forEach(activeItem => {
-                        if (activeItem !== subItemToActivate) {
-                            activeItem.classList.remove('active');
-                        }
-                    });
-
-                    if (subItemToActivate) {
-                        subItemToActivate.classList.add('active');
-                        breadcrumbSubpage.textContent = subItemToActivate.querySelector('span').textContent;
-                        breadcrumbSubpageContainer.classList.remove('hidden');
+        if (submenu.classList.contains('active')) {
+            submenu.style.height = `${submenu.scrollHeight}px`;
+            submenu.offsetHeight;
+            submenu.style.height = '0';
+            submenu.style.transform = 'scaleY(0)';
+            submenu.style.paddingTop = '0';
+            submenu.style.paddingBottom = '0';
+            submenu.classList.remove('active');
+            setTimeout(() => {
+                if (!submenu.classList.contains('active')) {
+                    submenu.style.height = '';
+                    submenu.style.transform = '';
+                    submenu.style.padding = '';
+                }
+            }, closingDuration);
+            if (localStorage.getItem('openSubmenuId') === submenuId) {
+                localStorage.removeItem('openSubmenuId');
+            }
+            this.openSubmenuId = null;
+        } else {
+            const activeSubmenu = document.querySelector('.submenu-container.active');
+            const openTargetSubmenu = () => {
+                submenu.classList.add('active');
+                submenu.style.height = '0';
+                submenu.style.transform = 'scaleY(0)';
+                submenu.style.paddingTop = '0';
+                submenu.style.paddingBottom = '0';
+                submenu.offsetHeight;
+                submenu.style.height = `${submenu.scrollHeight}px`;
+                submenu.style.transform = 'scaleY(1)';
+                submenu.style.padding = '1.5rem 0';
+                setTimeout(() => {
+                    if (submenu.classList.contains('active')) {
+                        submenu.style.height = 'auto';
                     }
+                }, openingDuration);
+                localStorage.setItem('openSubmenuId', submenuId);
+                this.openSubmenuId = submenuId;
+            };
+
+            if (activeSubmenu && activeSubmenu !== submenu) {
+                activeSubmenu.style.height = `${activeSubmenu.scrollHeight}px`;
+                activeSubmenu.offsetHeight;
+                activeSubmenu.style.height = '0';
+                activeSubmenu.style.transform = 'scaleY(0)';
+                activeSubmenu.style.paddingTop = '0';
+                activeSubmenu.style.paddingBottom = '0';
+                activeSubmenu.classList.remove('active');
+                if (localStorage.getItem('openSubmenuId') === activeSubmenu.id) {
+                    localStorage.removeItem('openSubmenuId');
+                }
+                setTimeout(() => {
+                    if (!activeSubmenu.classList.contains('active')) {
+                        activeSubmenu.style.height = '';
+                        activeSubmenu.style.transform = '';
+                        activeSubmenu.style.padding = '';
+                    }
+                    openTargetSubmenu();
+                }, closingDuration);
+            } else {
+                openTargetSubmenu();
+            }
+        }
+    }
+
+    toggleSidebar() {
+        sidebar.classList.toggle('-translate-x-full');
+        overlay.classList.toggle('active');
+    }
+
+    closeSidebar() {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.remove('active');
+    }
+
+    loadInitialPage() {
+        this.currentPage = localStorage.getItem('currentPage') || 'dashboard';
+        this.currentSubPage = localStorage.getItem('currentSubPage') || null;
+        this.openSubmenuId = localStorage.getItem('openSubmenuId') || null;
+        this.changePage(this.currentPage, true);
+    }
+
+    changePage(pageId, isInitialLoad = false) {
+        if (!pages[pageId]) {
+            console.warn(`Page definition not found for: ${pageId}`);
+            return;
+        }
+
+        this.currentPage = pageId;
+        localStorage.setItem('currentPage', pageId);
+
+        const pageContent = document.getElementById(`${pageId}-content`);
+        const iframe = document.getElementById(`${pageId}-iframe`);
+        const loadingElement = document.getElementById(`${pageId}-loading`);
+
+        pageContents.forEach(page => {
+            if (page.id !== `${pageId}-content`) {
+                page.classList.remove('active');
+                const iframe = page.querySelector('iframe');
+                if (iframe && iframe.src) {
+                    iframe.src = 'about:blank';
+                    iframe.dataset.src = '';
+                }
+            }
+        });
+        if (pageContent) {
+            setTimeout(() => pageContent.classList.add('active'), 50);
+        } else {
+            console.warn(`Page content container not found: #${pageId}-content`);
+        }
+
+        this.updateNavigation(pageId);
+        breadcrumbCurrent.textContent = pages[pageId].title;
+
+        this.updateSubmenuVisibility(pageId, isInitialLoad);
+
+        if (this.currentSubPage && pages[pageId].subpages && pages[pageId].subpages[this.currentSubPage]) {
+            const subItem = document.querySelector(`#${pageId}-submenu .sidebar-submenu-item[data-subpage="${this.currentSubPage}"]`);
+            if (subItem) {
+                this.changeSubPage(pageId, this.currentSubPage, subItem, true);
+            }
+        } else if (isInitialLoad && pages[pageId].subpages) {
+            const submenu = document.getElementById(`${pageId}-submenu`);
+            if (submenu) {
+                const firstSubItem = submenu.querySelector('.sidebar-submenu-item');
+                if (firstSubItem) {
+                    const subPageId = firstSubItem.dataset.subpage;
+                    this.changeSubPage(pageId, subPageId, firstSubItem, true);
+                }
+            }
+        }
+    }
+
+    changeSubPage(parentPageId, subPageId, clickedElement, fromChangePage = false) {
+        if (!pages[parentPageId] || !pages[parentPageId].subpages[subPageId]) {
+            console.warn(`Subpage definition not found for: ${parentPageId} -> ${subPageId}`);
+            if (fromChangePage) {
+                this.currentSubPage = null;
+                localStorage.removeItem('currentSubPage');
+                breadcrumbSubpageContainer.classList.add('hidden');
+            }
+            return;
+        }
+
+        this.currentSubPage = subPageId;
+        localStorage.setItem('currentSubPage', subPageId);
+
+        const currentSubmenu = document.getElementById(`${parentPageId}-submenu`);
+        if (currentSubmenu) {
+            currentSubmenu.querySelectorAll('.sidebar-submenu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            if (clickedElement) {
+                clickedElement.classList.add('active');
+                breadcrumbSubpage.textContent = clickedElement.querySelector('span').textContent;
+                breadcrumbSubpageContainer.classList.remove('hidden');
+            } else {
+                const activeSubItem = currentSubmenu.querySelector(`.sidebar-submenu-item[data-subpage="${subPageId}"]`);
+                if (activeSubItem) {
+                    activeSubItem.classList.add('active');
+                    breadcrumbSubpage.textContent = activeSubItem.querySelector('span').textContent;
+                    breadcrumbSubpageContainer.classList.remove('hidden');
                 } else {
                     breadcrumbSubpageContainer.classList.add('hidden');
-                    if (!isInitialLoad) {
+                }
+            }
+        } else {
+            breadcrumbSubpageContainer.classList.add('hidden');
+        }
+
+        const iframe = document.getElementById(`${parentPageId}-iframe`);
+        const loadingElement = document.getElementById(`${parentPageId}-loading`);
+        const newSrc = pages[parentPageId].subpages[subPageId].url;
+
+        if (iframe && newSrc) {
+            const currentSrcBase = iframe.src.split('#')[0];
+            const newSrcBase = newSrc.split('#')[0];
+
+            if (currentSrcBase !== newSrcBase || iframe.dataset.src !== newSrc) {
+                console.log(`Loading iframe: ${newSrc}`);
+                if (loadingElement) loadingElement.classList.remove('hidden');
+                iframe.src = newSrc;
+                iframe.dataset.src = newSrc;
+
+                const tempOnload = () => {
+                    if (loadingElement) loadingElement.classList.add('hidden');
+                    iframe.style.height = '100%';
+                    iframe.style.width = '100%';
+                    iframe.removeEventListener('load', tempOnload);
+                };
+                iframe.addEventListener('load', tempOnload);
+
+                iframe.onerror = () => {
+                    if (loadingElement) loadingElement.classList.add('hidden');
+                    console.error(`Failed to load iframe content for ${newSrc}`);
+                };
+            } else {
+                if (loadingElement) loadingElement.classList.add('hidden');
+                iframe.style.height = '100%';
+                iframe.style.width = '100%';
+            }
+        } else {
+            if (loadingElement) loadingElement.classList.add('hidden');
+        }
+    }
+
+    updateNavigation(pageId) {
+        sidebarNav.querySelectorAll('.sidebar-main-item').forEach(item => {
+            item.classList.toggle('active', item.dataset.page === pageId);
+        });
+
+        bottomNav.querySelectorAll('.bottom-nav-item').forEach(item => {
+            if (item.dataset.page) {
+                item.classList.toggle('active', item.dataset.page === pageId);
+                item.setAttribute('aria-current', item.dataset.page === pageId ? 'page' : 'false');
+            }
+        });
+    }
+
+    updateSubmenuVisibility(pageId, isInitialLoad = false) {
+        const targetSubmenu = document.getElementById(`${pageId}-submenu`);
+        const savedOpenSubmenuId = isInitialLoad ? this.openSubmenuId : null;
+
+        submenuContainers.forEach(container => {
+            if (container.id !== `${pageId}-submenu` && container.classList.contains('active')) {
+                this.toggleSubmenu(container);
+            }
+        });
+
+        if (targetSubmenu) {
+            if ((isInitialLoad && savedOpenSubmenuId && targetSubmenu.id === savedOpenSubmenuId) ||
+                (!isInitialLoad && !targetSubmenu.classList.contains('active'))) {
+                if (!targetSubmenu.classList.contains('active')) {
+                    this.toggleSubmenu(targetSubmenu);
+                }
+            }
+
+            let subItemToActivate = null;
+            let subPageIdForLoading = this.currentSubPage;
+
+            if (this.currentSubPage && pages[pageId].subpages && pages[pageId].subpages[this.currentSubPage]) {
+                subItemToActivate = targetSubmenu.querySelector(`.sidebar-submenu-item[data-subpage="${this.currentSubPage}"]`);
+            }
+
+            if (!subItemToActivate && pages[pageId].subpages) {
+                if (!isInitialLoad || (isInitialLoad && localStorage.getItem('currentSubPage') === null)) {
+                    const firstSubItem = targetSubmenu.querySelector('.sidebar-submenu-item');
+                    if (firstSubItem) {
+                        subItemToActivate = firstSubItem;
+                        subPageIdForLoading = firstSubItem.dataset.subpage;
+                        this.currentSubPage = subPageIdForLoading;
+                        localStorage.setItem('currentSubPage', subPageIdForLoading);
+                    } else {
+                        subPageIdForLoading = null;
                         this.currentSubPage = null;
                         localStorage.removeItem('currentSubPage');
                     }
-                    localStorage.removeItem('openSubmenuId');
-                    this.openSubmenuId = null;
-                }
-            }
-
-            handleResponsive() {
-                if (window.innerWidth >= 768) {
-                    sidebar.classList.remove('-translate-x-full');
-                    overlay.classList.remove('active');
-                } else {
-                    if (!overlay.classList.contains('active')) {
-                        sidebar.classList.add('-translate-x-full');
+                } else if (isInitialLoad && this.currentSubPage && (!pages[pageId].subpages || !pages[pageId].subpages[this.currentSubPage])) {
+                    const firstSubItem = targetSubmenu.querySelector('.sidebar-submenu-item');
+                    if (firstSubItem) {
+                        subItemToActivate = firstSubItem;
+                        subPageIdForLoading = firstSubItem.dataset.subpage;
+                        this.currentSubPage = subPageIdForLoading;
+                        localStorage.setItem('currentSubPage', subPageIdForLoading);
                     }
                 }
             }
 
-            debounce(fn, wait) {
-                let timeout;
-                return (...args) => {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => fn.apply(this, args), wait);
-                };
+            targetSubmenu.querySelectorAll('.sidebar-submenu-item.active').forEach(activeItem => {
+                if (activeItem !== subItemToActivate) {
+                    activeItem.classList.remove('active');
+                }
+            });
+
+            if (subItemToActivate) {
+                if (!subItemToActivate.classList.contains('active')) {
+                    subItemToActivate.classList.add('active');
+                }
+                breadcrumbSubpage.textContent = subItemToActivate.querySelector('span').textContent;
+                breadcrumbSubpageContainer.classList.remove('hidden');
+
+                if (subPageIdForLoading) {
+                    this.changeSubPage(pageId, subPageIdForLoading, subItemToActivate, true);
+                }
+            } else {
+                breadcrumbSubpageContainer.classList.add('hidden');
+            }
+        } else {
+            breadcrumbSubpageContainer.classList.add('hidden');
+            this.currentSubPage = null;
+            if (!isInitialLoad) {
+                localStorage.removeItem('currentSubPage');
+            }
+            const anyActiveSubmenu = document.querySelector('.submenu-container.active');
+            if (anyActiveSubmenu) {
+                this.toggleSubmenu(anyActiveSubmenu);
+            }
+            if (this.openSubmenuId) {
+                localStorage.removeItem('openSubmenuId');
+                this.openSubmenuId = null;
             }
         }
+    }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const navManager = new NavManager();
-        });
-        
-    </script>
+    handleResponsive() {
+        if (window.innerWidth >= 768) {
+            sidebar.classList.remove('-translate-x-full');
+            overlay.classList.remove('active');
+        } else {
+            if (!overlay.classList.contains('active')) {
+                sidebar.classList.add('-translate-x-full');
+            }
+        }
+    }
+
+    debounce(fn, wait) {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => fn.apply(this, args), wait);
+        };
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const navManager = new NavManager();
+});
+</script>
     <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93a8dc5b5cf5bfe7',t:'MTc0NjM3MDc1My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
